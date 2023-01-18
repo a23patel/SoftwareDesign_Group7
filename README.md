@@ -1,4 +1,4 @@
-# COSC 4353 Software Design
+# COSC 4353 Software Design - Team 7
 
 ## Instructions
 
