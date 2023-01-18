@@ -14,11 +14,6 @@ git clone https://github.com/Software-DesignX/Group-Project.git
 You should see a folder there named `Group-project`. 
 
 
-### Step 2. Open the project in RStudio
-NOTE: You may need to `git pull` prior to this step if a bunch of people are working on this at the same time.
-
-
-This is our project file that you can edit to your hearts content.
 
 ### Step 3. Commit and Push your changes.
 
