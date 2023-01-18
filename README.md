@@ -11,7 +11,7 @@ Run this command at that location.
 git clone https://github.com/Software-DesignX/Group-Project-Team-7.git
 ```
 
-You should see a folder there named `Group-project`. 
+You should see a folder there named `Group-Project-Team-7`. 
 
 
 
