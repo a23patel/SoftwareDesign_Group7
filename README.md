@@ -36,8 +36,7 @@
  ### <h2> Requirements </h2>
  
  <ul>
-  <li>Clone this repository:
-    `git clone https://github.com/Software-DesignX/COSC4353_Group7.git`
+  <li>clone repo: `git clone https://github.com/Software-DesignX/COSC4353_Group7.git`
   </li>
  <li>Install Git, Visual Studio Code, <a href="https://nodejs.org">NodeJS</a></li>
  </ul>
