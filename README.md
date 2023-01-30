@@ -1,4 +1,5 @@
-<div id="header" align="center">
+
+ <div id="header" align="center">
   <h1> COSC 4353: SOFTWARE DESIGN
     <br><br>
    <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="200"/>
@@ -35,10 +36,7 @@
  
  ### <h2> Requirements </h2>
  
- <ul>
-  <li>clone repo: `git clone https://github.com/Software-DesignX/COSC4353_Group7.git`
-  </li>
- <li>Install Git, Visual Studio Code, <a href="https://nodejs.org">NodeJS</a></li>
- </ul>
- 
+ 1) Clone this repository: `git clone https://github.com/Software-DesignX/COSC4353_Group7.git`
+  
+ 2) Install Git, Visual Studio Code, <a href="https://nodejs.org">NodeJS</a></li>
  
