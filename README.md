@@ -25,7 +25,7 @@
 ### <h2> Technology Stack</h2>
 <ul>
   <li>Frontend:</b> <a href="https://reactjs.org">ReactJS</a></li>
-  <li>Backend:</b> <a href="https://expressjs.com">ExpressJS</a> or <a href="https://nodejs.org">NodeJS</a></li>
+  <li>Backend:</b> <a href="https://expressjs.com">ExpressJS</a></li>
   <li>Database:</b> <a href="https://www.mysql.com">SQL</a></li>
   <li>Libraries:
   <ul>
