@@ -29,7 +29,7 @@
   <li>Database:</b> <a href="https://www.mysql.com">SQL</a></li>
   <li>Libraries:
   <ul>
-   <li> Styling: </li>
+   <li> Styling: <a href="https://getbootstrap.com/docs/3.4/">Bootstrap</a></li>
    <li> Testing: <a href="https://jestjs.io">Jest</a></li>
   </ul>
  </ul>
