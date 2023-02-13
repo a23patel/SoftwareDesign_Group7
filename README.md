@@ -30,7 +30,7 @@
   <li>Libraries:
   <ul>
    <li> Styling: <a href="https://getbootstrap.com/docs/3.4/">Bootstrap</a></li>
-   <li> Testing: <a href="https://jestjs.io">Jest</a></li>
+   <li> Testing: <a href="https://jestjs.io">Jest</a> and <a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library</a></li>
   </ul>
  </ul>
  
