@@ -1,0 +1,172 @@
+body {
+  font-family: Open Sans, Roboto, Verdana;
+  margin: 0;
+  padding: 0;
+  background-image: url('road.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.navigation {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background: #dbe4f5;
+  padding-bottom: 0.3rem;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.header-logo {
+  padding-top: 10px;
+  padding-left: 56px;
+  width: 8rem;
+  float: left;
+  animation: logo-scale 1s infinite alternate;
+}
+
+@keyframes logo-scale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.95);
+  }
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 50px;
+  padding-top: 25px;
+  position: relative;
+}
+
+nav a {
+  color: #006400;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+nav a:hover {
+  color: #006400;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #228b22;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='date'],
+input[type='tel'],
+input[type='number'],
+input[type='password'] {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px 20px;
+  box-shadow: 0 0 5px 1px;
+  border-radius: 10px;
+  display: inline-block;
+  border: 5px solid lightblue;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+input[type='text']:hover,
+input[type='email']:hover,
+input[type='password']:hover,
+input[type='tel']:hover {
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+button[type='submit'] {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-top: 30px;
+  background-color: #04d160;
+  color: #fffafa;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #00b348;
+}
+
+.container {
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px #000;
+}
+
+.state {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px 20px;
+  box-shadow: 0 0 5px 1px;
+  border-radius: 10px;
+  display: inline-block;
+  border: 5px solid lightblue;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.state:hover {
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+.tablebox {
+  width: 600px;
+  overflow: hidden;
+  margin: 20px auto;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 35px;
+  box-shadow: 0px 0px 10px #000;
+}
+
+table,
+th,
+td {
+  border: 2.4px solid purple;
+}
