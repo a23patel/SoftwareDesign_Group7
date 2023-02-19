@@ -84,6 +84,11 @@ nav a::before {
   transition: all ease-in-out 250ms;
 }
 
+.h1 {
+  color: #ffff00;
+  font-family: 'Helvetica';
+}
+
 input[type='text'],
 input[type='email'],
 input[type='date'],
