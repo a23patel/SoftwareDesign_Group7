@@ -8,8 +8,8 @@ body {
 }
 
 .label {
-  font-size: larger; 
-  color: rgb(0, 0, 0)
+  font-size: larger;
+  color: rgb(0, 0, 0);
 }
 
 .navigation {
@@ -92,6 +92,11 @@ nav a::before {
 .h1 {
   color: #ffff00;
   font-family: 'Helvetica';
+}
+
+.heading1 {
+  font-size: large;
+  color: rgb(0, 0, 0);
 }
 
 input[type='text'],
@@ -180,3 +185,4 @@ th,
 td {
   border: 2.4px solid green;
 }
+
