@@ -7,6 +7,11 @@ body {
   background-size: cover;
 }
 
+.label {
+  font-size: larger; 
+  color: rgb(0, 0, 0)
+}
+
 .navigation {
   width: 80%;
   margin: 0 auto;
@@ -114,7 +119,7 @@ input[type='tel']:hover {
   transition: all 0.3s ease;
 }
 
-button[type='submit'] {
+button[type='button'] {
   display: block;
   width: 100%;
   padding: 10px 15px;
@@ -129,7 +134,7 @@ button[type='submit'] {
   transition: all 0.3s ease;
 }
 
-button[type='submit']:hover {
+button[type='button']:hover {
   background-color: #00b348;
 }
 
