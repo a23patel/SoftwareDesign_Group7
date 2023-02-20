@@ -39,4 +39,10 @@
  1) Clone this repository: `git clone https://github.com/Software-DesignX/COSC4353_Group7.git`
   
  2) Install <a href="https://git-scm.com/">Git</a>, <a href="https://code.visualstudio.com/download">Visual Studio Code</a>, <a href="https://nodejs.org">NodeJS</a></li>
+
+ 3) Install the following NodeJS libraries:
+
+ ```console
+$ npm install msw react-router-dom axios
+ ```
  
