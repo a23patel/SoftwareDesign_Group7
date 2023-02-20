@@ -42,7 +42,13 @@
 
  3) Install the following NodeJS libraries:
 
- ```console
-$ npm install msw react-router-dom axios
+ ```shell
+npm install msw react-router-dom axios
+ ```
+
+ 4) Run in development mode:
+
+ ```
+ npm run start
  ```
  
