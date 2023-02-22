@@ -8,9 +8,10 @@ const client = axios.create({
 })
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value)
@@ -21,15 +22,25 @@ const LoginForm = () => {
   }
 
   const handleLoginSubmit = async () => {
-    await client.post('/login', { username, password }).then((response) => {
-      localStorage.clear()
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('username', username)
-      localStorage.setItem('password', password)
-    })
-    navigate('/profile')
+    await client.post('/login', { username, password }
+    ).then((response) => {
+        localStorage.clear();
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        navigate('/profile')
+    }).catch((error) => {
+        const status = error.response.status;
+        if (status === 400) {
+            alert('Login failed!');
+            navigate('/login');
+        }
+    });
   }
 
+  if (token) {
+      navigate('/profile');
+  }
   return (
     <>
       <br />

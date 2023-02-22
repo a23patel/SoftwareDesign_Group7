@@ -2,19 +2,18 @@ import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './index.css';
-
-
+import Logout from './Logout';
 
 const Profile = () => {
     const navigate = useNavigate();
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
     const [profile, setProfile] = useState({
         username: '...',
         city: '...',
     });
 
     useEffect(() => {
-        const username = localStorage.getItem('username');
-        const token = localStorage.getItem('token');
         if (!token) {
             localStorage.clear();
             navigate('/login');
@@ -35,12 +34,12 @@ const Profile = () => {
         }
     }, []);
 
-
     return (
         <div className='filler'>
             This is the profile page
             <h3>Username is {profile.username}</h3>
             <h3>Lives in {profile.city}</h3>
+            <Logout />
         </div>
     )
 };

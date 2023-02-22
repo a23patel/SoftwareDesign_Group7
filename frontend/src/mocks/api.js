@@ -195,4 +195,4 @@ const handlers = [
     // })
 ];
 
-export const worker = setupWorker(...handlers)
+export const worker = setupWorker(...handlers);
