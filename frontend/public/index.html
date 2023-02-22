@@ -36,8 +36,16 @@
   <body style="background-image: url('./road.png')">
     <!-- The actual React App is in here!-->
     <div id="root"></div>
-    <footer>
-      <p>Copyright &copy; 2023 Fuel Go. All Rights Reserved.</p>
+    <br />
+    <br />
+    <footer class="footer">
+      <p>
+        Copyright &copy;
+        <script>
+          document.write(new Date().getFullYear())
+        </script>
+        Fuel Go. All Rights Reserved.
+      </p>
     </footer>
   </body>
 </html>
