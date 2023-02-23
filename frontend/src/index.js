@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const prepare = () => {
   if (process.env.NODE_ENV === 'development') {
-    const { worker } = require('./mocks/api');
+    const { worker } = require('./mocks/worker');
     worker.start();
   }
   return Promise.resolve()

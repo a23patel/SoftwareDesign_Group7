@@ -45,6 +45,7 @@
  ```shell
 npm install msw react-router-dom axios
  ```
+TODO need to add new dependencies for testing
 
  4) Run in development mode:
 
