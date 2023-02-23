@@ -6,7 +6,7 @@ import { setupWorker, rest } from 'msw';
 
 let users = new Map();
 users.set('michael', {
-        username: 'michael',
+        fullname: 'michael',
         password: 'test',
         email: 'test1@uh.edu',
         address1: '7001 Calhoun',
@@ -17,7 +17,7 @@ users.set('michael', {
         phone: '7137778888',
 });
 users.set('abraar', {
-    username: 'abraar',
+    fullname: 'abraar',
     password: 'test',
     email: 'test2@uh.edu',
     address1: '7001 Calhoun',
@@ -29,10 +29,7 @@ users.set('abraar', {
 });
 
 let sessions = new Map();
-let quotes = new Map();
-quotes.set('michael', {
-
-})
+let history = {};
 
 //const valid_token = (username, token) => { return token === 'secrettoken93423'; };
 const valid_token = (username, token) => { return true; };
@@ -95,18 +92,18 @@ const handlers = [
                 ctx.json({ message: `Invalid credentials`})
             );
         }
-        let history = []
-        if (quotes.has(username))
+        let result = []
+        if (history.get(username))
         {
-            history = quotes.get(username);          
+            result = history.get(username);
         }
         return res(
             ctx.status(200),
-            ctx.json({ message: `Operation successful`})
+            ctx.json({ quotes: result, message: `Operation successful`})
         );
     }),
-    rest.post('/api/quote', async (req, res, ctx) => {
-        const { username, gallon, date } = await req.json();
+    rest.get('/api/quote/:username/:gallons', (req, res, ctx) => {
+        const { username, gallons } = req.params;
         const { token } =  req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
             return res(
@@ -114,15 +111,36 @@ const handlers = [
                 ctx.json({ message: `Invalid credentials`})
             );
         }
-        if (!quotes.has(username)) {
+        const price = 2.50;
+        const due = gallons * price;
+        return res(
+            ctx.status(200),
+            ctx.json({ price, due, message: `Operation succeeded`})
+        );
+    }),
+    rest.post('/api/quote', async (req, res, ctx) => {
+        const { username, address1, address2, city, state, zipcode, gallon, date, price, due } = await req.json();
+        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        if (!users.has(username) || !valid_token(username, token)) {
+            return res(
+                ctx.status(400),
+                ctx.json({ message: `Invalid credentials`})
+            );
+        }
+        let quotes = history.get(username);
+        if (!quotes) {
             quotes.set(username, []);
         }
-        let quotes = quotes.get(username);
-        quotes.set(username, quotes.concat({
+        history.set(username, quotes.concat({
             gallon,
+            address1,
+            address2,
+            city,
+            state,
+            zipcode,
             date,
-            price: 3.00,
-            due: 7000.00,
+            price,
+            due,
         }));
         return res(
             ctx.status(200),
