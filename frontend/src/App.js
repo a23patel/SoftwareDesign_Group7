@@ -9,8 +9,9 @@ import IndexForm from './IndexForm'
 import LoginForm from './LoginForm'
 import Profile from './Profile'
 //import HistoryForm from './HistoryForm'
-//import EditProfileForm from './EditProfileForm';
+import EditProfileForm from './EditProfileForm';
 import Logout from './Logout';
+//import RegistrationForm from './RegistrationForm';
 //import Navbar from './Navbar';
 
 const Footer = () => {
@@ -70,6 +71,7 @@ const Navbar = () => {
       <nav>
         <ul>
           <li><Link to="/login">Login</Link></li>
+          <li><Link to="/registration">Register</Link></li>
         </ul>
       </nav>
     </div>
@@ -82,8 +84,8 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<IndexForm />} />
     <Route path="/login" element={<LoginForm />} />
     <Route path="/profile" element={<Profile />} />
-    {/* <Route path="/history" element={<HistoryForm />} />
-    <Route path="/profile/edit" element={<EditProfileForm />} /> */}
+    {/* <Route path="/history" element={<HistoryForm />} /> */}
+    <Route path="/profile/edit" element={<EditProfileForm />} />
   </Route>
 ));
 
