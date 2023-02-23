@@ -47,7 +47,7 @@ const EditProfileForm = () => {
         if (!token) {
             navigate('/login');
         }
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="container">
@@ -57,7 +57,7 @@ const EditProfileForm = () => {
                 id="fullname"
                 name="fullname"
                 placeholder="Enter Full Name"
-                maxlength="50"
+                maxLength="50"
                 required
                 onChange={handleChangeName}
             />
@@ -72,7 +72,7 @@ const EditProfileForm = () => {
                 id="address1"
                 name="address1"
                 placeholder="Enter address 1"
-                maxlength="100"
+                maxLength="100"
                 required
                 onChange={handleChangeAddress1}
             />
@@ -87,7 +87,7 @@ const EditProfileForm = () => {
                 id="address2"
                 name="address2"
                 placeholder="Enter address 2 (optional)"
-                maxlength="100"
+                maxLength="100"
                 onChange={handleChangeAddress2}
             />
             <br />
@@ -99,7 +99,7 @@ const EditProfileForm = () => {
                 id="city"
                 name="city"
                 placeholder="Enter city"
-                maxlength="100"
+                maxLength="100"
                 required
                 onChange={handleChangeCity}
             />
@@ -164,7 +164,7 @@ const EditProfileForm = () => {
             <br />
             <label
                 className="label"
-                for="zipcode"
+                htmlFor="zipcode"
             >Zipcode:
             </label>
             <input
@@ -172,8 +172,8 @@ const EditProfileForm = () => {
                 id="zipcode"
                 name="zipcode"
                 placeholder="Enter Zipcode"
-                minlength="5"
-                maxlength="9"
+                minLength="5"
+                maxLength="9"
                 required
                 onChange={handleChangeZipcode}
             />
