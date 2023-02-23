@@ -205,7 +205,7 @@ button[type='button']:hover {
 
 .logout_button {
   border: 0px;
-  background-color: rgba(0,0,0,255.0);
+  background-color: rgba(0, 0, 0, 255);
   text-decoration-line: underline;
   text-decoration-color: blue;
 }
@@ -313,8 +313,4 @@ td {
 
 .footer p {
   margin: 0;
-}
-
-body {
-  background-image: url('./road.png');
 }
