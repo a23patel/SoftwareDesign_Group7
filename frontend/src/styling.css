@@ -92,6 +92,7 @@ nav a::before {
 
 .anchor {
   font-family: Poppins;
+  color: #117111;
 }
 
 .h1 {
@@ -105,7 +106,7 @@ nav a::before {
 }
 
 .heading {
-  color: rgb(2, 91, 10);
+  color: rgb(11, 112, 20);
   font-size: 60px;
   font-family: Poppins;
 }
@@ -204,10 +205,19 @@ button[type='button']:hover {
 }
 
 .logout_button {
-  border: 0px;
-  background-color: rgba(0, 0, 0, 255);
-  text-decoration-line: underline;
-  text-decoration-color: blue;
+  display: block;
+  color: #006400;
+  text-decoration: none;
+  background-color: #cbf4b5;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: #034803;
+  border-block-color: green;
+  border-radius: 10px;
+}
+
+.logout_button:hover {
+  background-color: #80f2ae;
 }
 
 .state {

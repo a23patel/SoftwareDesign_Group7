@@ -32,15 +32,11 @@ const IndexForm = () => {
 
             <h1 className='heading2'>
               Get your free quote today!!
-              <a className='anchor' href='/login'>
-                Login Here
-              </a>
+              <a href='/login'>Login Here</a>
             </h1>
             <h1 className='heading3'>
               Don't have an account?
-              <a className='anchor' href='registration.html'>
-                Register Here
-              </a>
+              <a href='/registration'>Register Here</a>
             </h1>
           </center>
           <br />
