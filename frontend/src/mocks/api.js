@@ -1,7 +1,9 @@
 import { rest } from 'msw';
 
 /*
-    Definitions for mock JSON API handlers to be run in a Service Worker
+    Definitions for mock JSON API handlers
+    It can be run inside of a Service Worker for interactive browser testing,
+    or be used inside Jest for integration testing
  */
 
 let users = new Map();
@@ -80,7 +82,6 @@ const handlers = [
         let result = undefined;
         if (users.has(username) && valid_token(username, token)) {
             result = users.get(username);
-            result.token = token;
             return res(
                 ctx.status(200),
                 ctx.json(result)
@@ -90,6 +91,23 @@ const handlers = [
             return res(
                 ctx.status(400),
                 ctx.json({ message: `Error: login of username ${username} invalid!` })
+            );
+        }
+    }),
+    rest.post('/api/profile/edit', async (req, res, ctx) => {
+        const { username, ...profile } = await req.json();
+        const { token } = req.headers.get('Authorization').split(' ')[1];
+        if (users.has(username) && valid_token(username, token)) {
+            users.set(username, profile);
+            return res(
+                ctx.status(200),
+                ctx.json({ message: `Profile saved`})
+            );
+        }
+        else {
+            return res(
+                ctx.status(400),
+                ctx.json({ message: `Error updating profile`})
             );
         }
     }),
