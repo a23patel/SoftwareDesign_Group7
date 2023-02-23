@@ -92,7 +92,8 @@ nav a::before {
 
 .anchor {
   font-family: Poppins;
-  color: #117111;
+  color: #18690b;
+  font-weight: bolder;
 }
 
 .h1 {

@@ -6,19 +6,19 @@ import { setupWorker, rest } from 'msw';
 
 let users = new Map();
 users.set('michael', {
-        fullname: 'michael',
-        password: 'test',
-        email: 'test1@uh.edu',
-        address1: '7001 Calhoun',
-        address2: '',
-        city: 'Houston',
-        state: 'TX',
-        zip: '77001',
-        phone: '7137778888',
+    fullname: 'michael',
+    password: 'test1',
+    email: 'test1@uh.edu',
+    address1: '7001 Calhoun',
+    address2: '',
+    city: 'Houston',
+    state: 'TX',
+    zip: '77001',
+    phone: '7137778888',
 });
 users.set('abraar', {
     fullname: 'abraar',
-    password: 'test',
+    password: 'test2',
     email: 'test2@uh.edu',
     address1: '7001 Calhoun',
     address2: '',
@@ -27,6 +27,17 @@ users.set('abraar', {
     zip: '77001',
     phone: '7138889999',
 });
+users.set('dosbol', {
+    fullname: 'dosbol',
+    password: 'test3',
+    email: 'test3@uh.edu',
+    address1: '7001 Calhoun',
+    address2: '',
+    city: 'Houston',
+    state: 'TX',
+    zip: '77001',
+    phone: '7138882222',
+});
 
 let sessions = new Map();
 let history = {};
@@ -34,8 +45,8 @@ let history = {};
 //const valid_token = (username, token) => { return token === 'secrettoken93423'; };
 const valid_token = (username, token) => { return true; };
 
-const valid_password = (username, password) => { 
-//    return true; 
+const valid_password = (username, password) => {
+    //    return true; 
     return password === users.get(username).password;
 };
 
@@ -44,8 +55,7 @@ const generate_token = (username) => { return 'secrettoken93423'; };
 const handlers = [
     rest.post('/api/login', async (req, res, ctx) => {
         const { username, password } = await req.json();
-        if (!users.has(username) || !valid_password(username, password))
-        {
+        if (!users.has(username) || !valid_password(username, password)) {
             return res(
                 ctx.status(400),
                 ctx.json({
@@ -66,65 +76,64 @@ const handlers = [
     }),
     rest.get('/api/profile/:username', (req, res, ctx) => {
         const { username } = req.params;
-        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        const { token } = req.headers.get('Authorization').split(' ')[1];
         let result = undefined;
         if (users.has(username) && valid_token(username, token)) {
             result = users.get(username);
             result.token = token;
             return res(
-               ctx.status(200),
-               ctx.json(result)
+                ctx.status(200),
+                ctx.json(result)
             );
         }
         else {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `Error: login of username ${username} invalid!`})
+                ctx.json({ message: `Error: login of username ${username} invalid!` })
             );
         }
     }),
     rest.get('/api/history/:username', (req, res, ctx) => {
         const { username } = req.params;
-        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `Invalid credentials`})
+                ctx.json({ message: `Invalid credentials` })
             );
         }
         let result = []
-        if (history.get(username))
-        {
+        if (history.get(username)) {
             result = history.get(username);
         }
         return res(
             ctx.status(200),
-            ctx.json({ quotes: result, message: `Operation successful`})
+            ctx.json({ quotes: result, message: `Operation successful` })
         );
     }),
     rest.get('/api/quote/:username/:gallons', (req, res, ctx) => {
         const { username, gallons } = req.params;
-        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `Invalid credentials`})
+                ctx.json({ message: `Invalid credentials` })
             );
         }
         const price = 2.50;
         const due = gallons * price;
         return res(
             ctx.status(200),
-            ctx.json({ price, due, message: `Operation succeeded`})
+            ctx.json({ price, due, message: `Operation succeeded` })
         );
     }),
     rest.post('/api/quote', async (req, res, ctx) => {
         const { username, address1, address2, city, state, zipcode, gallon, date, price, due } = await req.json();
-        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `Invalid credentials`})
+                ctx.json({ message: `Invalid credentials` })
             );
         }
         let quotes = history.get(username);
@@ -144,16 +153,15 @@ const handlers = [
         }));
         return res(
             ctx.status(200),
-            ctx.json({ message: `Operation succeeded`})
+            ctx.json({ message: `Operation succeeded` })
         );
     }),
     rest.post('/api/register', async (req, res, ctx) => {
         const { username, email, phone, password } = await req.json();
-        if (users.has(username) || password === undefined || email === undefined)
-        {
+        if (users.has(username) || password === undefined || email === undefined) {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `Registration failed`})
+                ctx.json({ message: `Registration failed` })
             );
         }
         else {
@@ -170,24 +178,24 @@ const handlers = [
             });
             return res(
                 ctx.status(200),
-                ctx.json({ message: `Registration succeeded for ${username}`})
+                ctx.json({ message: `Registration succeeded for ${username}` })
             );
         }
     }),
     rest.post('/api/logout', async (req, res, ctx) => {
         const { username } = await req.json();
-        const { token } =  req.headers.get('Authorization').split(' ')[1];
+        const { token } = req.headers.get('Authorization').split(' ')[1];
         if (sessions.has(username) && valid_token(username, token)) {
             sessions.delete(username);
             return res(
                 ctx.status(200),
-                ctx.json({ message: `Logout successful for ${username}`})
+                ctx.json({ message: `Logout successful for ${username}` })
             );
         }
         else {
             return res(
                 ctx.status(400),
-                ctx.json({ message: `No session found for ${username} or token invalid`})
+                ctx.json({ message: `No session found for ${username} or token invalid` })
             )
         }
     }),

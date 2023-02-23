@@ -3,14 +3,18 @@ import './styling.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+const client = axios.create({
+  baseURL: 'api',
+})
+
 const EditProfileForm = () => {
-  const navigate = useNavigate()
   const [fullname, setFullname] = useState('')
   const [address1, setAddress1] = useState('')
   const [address2, setAddress2] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [zipcode, setZipcode] = useState('')
+  const navigate = useNavigate()
 
   const handleChangeName = (e) => {
     setFullname(e.target.value)
@@ -36,10 +40,26 @@ const EditProfileForm = () => {
     setZipcode(e.target.value)
   }
 
-  const handleProfileSubmit = () => {
-    const profile = { fullname, address1, address2, city, state, zipcode }
-    console.log('Not yet implemented')
-    console.log(profile)
+  const handleProfileSubmit = async () => {
+    await client
+      .post('/profile/edit', {
+        fullname,
+        address1,
+        address2,
+        city,
+        state,
+        zipcode,
+      })
+      .then((response) => {})
+      .catch((error) => {
+        const status = error.response.status
+        if (status === 400) {
+          alert('Submission failed!')
+          navigate('/profile/edit')
+        }
+      })
+
+    navigate('/profile')
   }
 
   useEffect(() => {
@@ -64,9 +84,9 @@ const EditProfileForm = () => {
           id='fullname'
           name='fullname'
           placeholder='Enter Full Name'
-          maxlength='50'
-          required
+          maxLength='50'
           onChange={handleChangeName}
+          required
         />
         <br />
         <label className='label' htmlFor='address1'>
@@ -77,9 +97,9 @@ const EditProfileForm = () => {
           id='address1'
           name='address1'
           placeholder='Enter address 1'
-          maxlength='100'
-          required
+          maxLength='100'
           onChange={handleChangeAddress1}
+          required
         />
         <br />
         <label className='label' htmlFor='address2'>
@@ -90,7 +110,7 @@ const EditProfileForm = () => {
           id='address2'
           name='address2'
           placeholder='Enter address 2 (optional)'
-          maxlength='100'
+          maxLength='100'
           onChange={handleChangeAddress2}
         />
         <br />
@@ -102,9 +122,9 @@ const EditProfileForm = () => {
           id='city'
           name='city'
           placeholder='Enter city'
-          maxlength='100'
-          required
+          maxLength='100'
           onChange={handleChangeCity}
+          required
         />
         <br />
         <label className='label' htmlFor='state'>
@@ -114,8 +134,8 @@ const EditProfileForm = () => {
           className='state'
           id='state'
           name='state'
-          required
           onChange={handleChangeState}
+          required
         >
           <option value='' disabled selected></option>
           <option value='AL'>AL</option>
@@ -171,7 +191,7 @@ const EditProfileForm = () => {
           <option value='WY'>WY</option>
         </select>
         <br />
-        <label className='label' for='zipcode'>
+        <label className='label' htmlFor='zipcode'>
           Zipcode:
         </label>
         <input
@@ -179,10 +199,10 @@ const EditProfileForm = () => {
           id='zipcode'
           name='zipcode'
           placeholder='Enter Zipcode'
-          minlength='5'
-          maxlength='9'
-          required
+          minLength='5'
+          maxLength='9'
           onChange={handleChangeZipcode}
+          required
         />
 
         <button type='button' onClick={handleProfileSubmit}>
