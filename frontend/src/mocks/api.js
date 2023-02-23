@@ -1,4 +1,4 @@
-import { setupWorker, rest } from 'msw';
+import { rest } from 'msw';
 
 /*
     Definitions for mock JSON API handlers to be run in a Service Worker
@@ -221,4 +221,4 @@ const handlers = [
     // })
 ];
 
-export const worker = setupWorker(...handlers);
+export default handlers;
