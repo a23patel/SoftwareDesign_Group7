@@ -1,60 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link } from 'react-router-dom'
+import { Route, Link, Outlet } from 'react-router-dom'
 import './styling.css';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, useLocation } from 'react-router-dom'
 
 import IndexForm from './IndexForm'
 import LoginForm from './LoginForm'
 import Profile from './Profile'
-import HistoryForm from './HistoryForm'
-import EditProfileForm from './EditProfileForm';
+//import HistoryForm from './HistoryForm'
+//import EditProfileForm from './EditProfileForm';
+import Logout from './Logout';
+//import Navbar from './Navbar';
 
-const routes = [
-  {
-    path: '/',
-    element: <IndexForm />,
-  },
-  {
-    path: '/login',
-    element: <LoginForm />,
-  },
-  {
-    path: '/profile',
-    element: <Profile />,
-  },
+const Footer = () => {
+  <>
+    <footer>
+      <p>Copyright &copy; 2023 Fuel Go. All Rights Reserved.</p>
+    </footer>
+  </>
+}
 
-  {
-    path: '/history',
-    element: <HistoryForm />,
-  },
-  {
-    path: '/profile/edit',
-    element: <EditProfileForm />,
-  },
-];
-
-const App = () => {
+const AppLayout = () => {
   return (
-    <div className="app">
-      <div class="navigation">
+    <div className="layout">
+      <header>
+        <Navbar />
+      </header>
+      <Outlet />
+      <Footer />
+    </div>
+  );
+}
+
+const Navbar = () => {
+  let location = useLocation();
+  const [ loggedIn, setLoggedIn ] = useState(localStorage.getItem('token') !== null);
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setLoggedIn(true);
+    }
+    else {
+      setLoggedIn(false);
+    }
+  }, [location]);
+  
+  if (loggedIn) {
+    return (
+      <div className="navigation">
+        <Link to="/">
+          <img src="appLogo.png" alt="" className="header-logo" />
+        </Link>
         <nav>
           <ul>
-            {/* <li><a href="/registration">Sign Up</a></li>
-            <li><a href="/profile">My Profile</a></li>
-  <li><a href="/quote">Fuel Quote Form</a></li> */}
-            <li><Link to="/registration">Sign Up</Link></li>
             <li><Link to="/profile">My Profile</Link></li>
             <li><Link to="/quote">Fuel Quote</Link></li>
+            <li><Link to="/history">Quote History</Link></li>
+            <li><Logout /></li>
           </ul>
         </nav>
       </div>
-      <RouterProvider router={createBrowserRouter(routes)} />
-      <footer>
-        <p>Copyright &copy; 2023 Fuel Go. All Rights Reserved.</p>
-      </footer>
+    )
+  } else {
+    return (
+    <div className="navigation">
+      <Link to="/">
+        <img src="appLogo.png" alt="" className="header-logo" />
+      </Link>
+      <nav>
+        <ul>
+          <li><Link to="/login">Login</Link></li>
+        </ul>
+      </nav>
     </div>
+    );
+  }
+};
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<AppLayout />}>
+    <Route path="/" element={<IndexForm />} />
+    <Route path="/login" element={<LoginForm />} />
+    <Route path="/profile" element={<Profile />} />
+    {/* <Route path="/history" element={<HistoryForm />} />
+    <Route path="/profile/edit" element={<EditProfileForm />} /> */}
+  </Route>
+));
+
+const App = () => {
+  console.log(router)
+  return (
+    <RouterProvider router={router} />
   )
 };
 
