@@ -1,11 +1,7 @@
 import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { client } from './axiosClient'
 import './styling.css'
-
-const client = axios.create({
-  baseURL: 'api',
-})
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -35,6 +31,7 @@ const LoginForm = () => {
       })
       .catch((error) => {
         const status = error.response.status
+        console.log(error)
         if (status === 400) {
           alert('Login failed!')
           navigate('/login')

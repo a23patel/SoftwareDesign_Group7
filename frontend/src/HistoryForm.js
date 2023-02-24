@@ -1,11 +1,7 @@
-import { React, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { React } from 'react'
+//import { useNavigate } from 'react-router-dom'
+//import { clientWithAuth } from './axiosClient'
 import './styling.css'
-
-const client = axios.create({
-  baseURL: 'api',
-})
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -25,19 +21,50 @@ const data = [
   },
   {
     gallons: 4.1,
-    address: '7001 Calhoun Rd',
-    city: 'Houston',
-    state: 'TX',
-    zipcode: '77001',
+    address: '302 N Grace St',
+    city: 'Lombard',
+    state: 'IL',
+    zipcode: '60645',
     date: '2023-01-02',
     price: 6.0,
     due: 4.1 * 6.0,
+  },
+  {
+    gallons: 6.2,
+    address: '7132 Nicolls St',
+    city: 'Riverside',
+    state: 'CA',
+    zipcode: '92509',
+    date: '2023-01-03',
+    price: 8.0,
+    due: 6.2 * 8.0,
+  },
+  {
+    gallons: 7.1,
+    address: '2300 Perry Blvd',
+    city: 'Atlanta',
+    state: 'GA',
+    zipcode: '30314',
+    date: '2023-01-04',
+    price: 4.5,
+    due: 7.1 * 4.5,
+  },
+  {
+    gallons: 5.6,
+    address: '11802 N Lane Dr',
+    city: 'Lakewood',
+    state: 'OH',
+    zipcode: '44107',
+    date: '2023-01-05',
+    price: 7.2,
+    due: 5.6 * 7.2,
   },
 ]
 
 const HistoryForm = () => {
   return (
     <>
+      <br />
       <br />
       <center>
         <h1 className='h1'>FUEL QUOTE HISTORY</h1>

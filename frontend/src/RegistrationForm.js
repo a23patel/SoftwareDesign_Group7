@@ -2,10 +2,7 @@ import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './styling.css'
-
-const client = axios.create({
-  baseURL: 'api',
-})
+import { client } from './axiosClient'
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState('')

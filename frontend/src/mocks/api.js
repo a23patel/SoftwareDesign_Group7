@@ -11,7 +11,7 @@ users.set('michael', {
     fullname: 'michael',
     password: 'test1',
     email: 'test1@uh.edu',
-    address1: '7001 Calhoun',
+    address1: '7001 Calhoun Rd',
     address2: '',
     city: 'Houston',
     state: 'TX',
@@ -22,7 +22,7 @@ users.set('abraar', {
     fullname: 'abraar',
     password: 'test2',
     email: 'test2@uh.edu',
-    address1: '7001 Calhoun',
+    address1: '7001 Calhoun Rd',
     address2: '',
     city: 'Houston',
     state: 'TX',
@@ -33,7 +33,7 @@ users.set('dosbol', {
     fullname: 'dosbol',
     password: 'test3',
     email: 'test3@uh.edu',
-    address1: '7001 Calhoun',
+    address1: '7001 Calhoun Rd',
     address2: '',
     city: 'Houston',
     state: 'TX',
@@ -42,7 +42,26 @@ users.set('dosbol', {
 });
 
 let sessions = new Map();
-let history = {};
+let history = new Map();
+history.set('abraar', [{
+    gallons: 3.7,
+    address: '7001 Calhoun Rd',
+    city: 'Houston',
+    state: 'TX',
+    zipcode: '77001',
+    date: new Date("2023-01-01"),
+    price: 5.00, 
+    due: 3.7*5.00,
+}, {
+    gallons: 4.1,
+    address: '7001 Calhoun Rd',
+    city: 'Houston',
+    state: 'TX',
+    zipcode: '77001',
+    date: new Date("2023-01-02"),
+    price: 6.00, 
+    due: 4.1*6.00,
+}]);
 
 //const valid_token = (username, token) => { return token === 'secrettoken93423'; };
 const valid_token = (username, token) => { return true; };
@@ -156,7 +175,8 @@ const handlers = [
         }
         let quotes = history.get(username);
         if (!quotes) {
-            quotes.set(username, []);
+            history.set(username, []);
+            quotes = [];
         }
         history.set(username, quotes.concat({
             gallon,

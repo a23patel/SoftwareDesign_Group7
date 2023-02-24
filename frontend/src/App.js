@@ -95,15 +95,15 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginForm />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/history' element={<HistoryForm />} />
+      <Route path='/quote' element={<QuoteForm />} />
       <Route path='/profile/edit' element={<EditProfileForm />} />
       <Route path='/registration' element={<RegistrationForm />} />
       <Route path='/quote' element={<QuoteForm />} />
     </Route>
   )
-)
+);
 
 const App = () => {
-  console.log(router)
   return <RouterProvider router={router} />
 }
 

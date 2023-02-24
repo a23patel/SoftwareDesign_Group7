@@ -1,10 +1,11 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { clientWithAuth } from './axiosClient'
 import './styling.css'
 
-const client = axios.create({
-  baseURL: 'api',
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
 })
 
 const QuoteForm = () => {
@@ -45,31 +46,22 @@ const QuoteForm = () => {
 
   const handleGetQuote = async (e) => {
     e.preventDefault()
-    const client = axios.create({
-      baseURL: 'api',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    await client.get('/quote/' + username + '/' + gallons).then((response) => {
-      setQuote(response.data)
-    })
+    await clientWithAuth(token)
+      .get('/quote/' + username + '/' + gallons)
+      .then((response) => {
+        setQuote(response.data)
+      })
     handleCheckFormValid()
   }
 
   const handleQuoteSubmit = async (e) => {
     e.preventDefault()
-    const client = axios.create({
-      baseURL: 'api',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
     if (FormValid === false) {
       alert('Please complete the form !!')
       return
     }
-    await client
+
+    await clientWithAuth(token)
       .post('/quote', {
         username,
         address1: profile.address1,
@@ -98,17 +90,11 @@ const QuoteForm = () => {
       localStorage.clear()
       navigate('/login')
     } else {
-      const client = axios.create({
-        baseURL: 'api',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      console.log(username)
-      console.log(token)
-      client.get('/profile/' + username).then((response) => {
-        setProfile(response.data)
-      })
+      clientWithAuth(token)
+        .get('/profile/' + username)
+        .then((response) => {
+          setProfile(response.data)
+        })
     }
   }, [])
 
@@ -205,7 +191,7 @@ const QuoteForm = () => {
             type='text'
             id='suggested_gallon_price'
             name='suggested_gallon_price'
-            value={'$ ' + quote.price}
+            value={formatter.format(quote.price)}
             readOnly
           />
           <br />
@@ -217,7 +203,7 @@ const QuoteForm = () => {
             id='total_cost'
             name='total_cost'
             placeholder='$'
-            value={'$ ' + quote.due}
+            value={formatter.format(quote.due)}
             readOnly
           />
           <button type='submit' onSubmit={handleQuoteSubmit}>

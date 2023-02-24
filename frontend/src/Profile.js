@@ -1,8 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { clientWithAuth } from './axiosClient'
 import './styling.css'
-import Logout from './Logout'
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -22,15 +21,7 @@ const Profile = () => {
       localStorage.clear()
       navigate('/login')
     } else {
-      const client = axios.create({
-        baseURL: 'api',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      console.log(username)
-      console.log(token)
-      client.get('/profile/' + username).then((response) => {
+      clientWithAuth(token).get('/profile/' + username).then((response) => {
         setProfile(response.data)
       })
     }

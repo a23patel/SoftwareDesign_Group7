@@ -1,11 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import './styling.css'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const client = axios.create({
-  baseURL: 'api',
-})
+import { clientWithAuth } from './axiosClient'
 
 const EditProfileForm = () => {
   const [fullname, setFullname] = useState('')
@@ -40,9 +36,13 @@ const EditProfileForm = () => {
     setZipcode(e.target.value)
   }
 
-  const handleProfileSubmit = async () => {
-    await client
+  const handleProfileSubmit = async (e) => {
+    e.preventDefault()
+    const username = localStorage.getItem('username')
+    const token = localStorage.getItem('token')
+    await clientWithAuth(token)
       .post('/profile/edit', {
+        username,
         fullname,
         address1,
         address2,
