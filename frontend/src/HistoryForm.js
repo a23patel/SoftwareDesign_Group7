@@ -1,6 +1,4 @@
-import { React, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { clientWithAuth } from './axiosClient'
+import { React} from 'react'
 import './styling.css'
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -34,6 +32,7 @@ const data = [
 const HistoryForm = () => {
   return (
     <>
+      <br />
       <br />
       <center>
         <h1 className='h1'>FUEL QUOTE HISTORY</h1>
