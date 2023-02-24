@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import './styling.css'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { clientWithAuth } from './axiosClient'
 
 const Logout = () => {
   const navigate = useNavigate()
@@ -12,13 +12,7 @@ const Logout = () => {
       localStorage.clear()
       navigate('/login')
     }
-    const client = axios.create({
-      baseURL: 'api',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    await client
+    await clientWithAuth(token)
       .post('/logout', { username })
       .then((response) => {})
       .catch((error) => {

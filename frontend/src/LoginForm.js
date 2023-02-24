@@ -1,11 +1,7 @@
 import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { client } from './axiosClient'
 import './styling.css'
-
-const client = axios.create({
-  baseURL: 'api',
-})
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -21,7 +17,7 @@ const LoginForm = () => {
     setPassword(e.target.value)
   }
 
-  const handleLoginSubmit = async () => {
+  const handleLoginSubmit = async (e) => {
     await client
       .post('/login', { username, password })
       .then((response) => {
@@ -33,6 +29,7 @@ const LoginForm = () => {
       })
       .catch((error) => {
         const status = error.response.status
+        console.log(error);
         if (status === 400) {
           alert('Login failed!')
           navigate('/login')
@@ -49,6 +46,7 @@ const LoginForm = () => {
       <center>
         <h1 className='h1'>CLIENT LOGIN</h1>
       </center>
+      <form>
       <div className='container'>
         <label className='label' htmlFor='user'>
           Username:{' '}
@@ -87,6 +85,7 @@ const LoginForm = () => {
           </h1>
         </center>
       </div>
+    </form>
     </>
   )
 }

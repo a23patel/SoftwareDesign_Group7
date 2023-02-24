@@ -2,10 +2,7 @@ import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './styling.css'
-
-const client = axios.create({
-  baseURL: 'api',
-})
+import { client } from './axiosClient'
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState('')
@@ -30,7 +27,8 @@ const RegistrationForm = () => {
   const handleNumberChange = (e) => {
     setNumber(e.target.value)
   }
-  const handleRegisterSubmit = async () => {
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
     await client
       .post('/register', { username, password, email, number })
       .then((response) => {})
@@ -68,6 +66,7 @@ const RegistrationForm = () => {
       <center>
         <h1 className='h1'>CREATE ACCOUNT</h1>
       </center>
+      <form>
       <div className='container'>
         <label className='label' htmlFor='user'>
           User Name:{' '}
@@ -131,7 +130,7 @@ const RegistrationForm = () => {
           placeholder='Re-enter password'
           required
         />
-        <button type='button' onClick={handleRegisterSubmit}>
+        <button type='submit' onClick={handleRegisterSubmit}>
           REGISTER
         </button>{' '}
         <br />
@@ -141,6 +140,7 @@ const RegistrationForm = () => {
           </h1>
         </center>
       </div>
+    </form>
     </>
   )
 }
