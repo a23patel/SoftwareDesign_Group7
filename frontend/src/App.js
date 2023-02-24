@@ -18,7 +18,6 @@ import HistoryForm from './HistoryForm'
 import EditProfileForm from './EditProfileForm'
 import Logout from './Logout'
 import QuoteForm from './QuoteForm'
-//import Navbar from './Navbar';
 
 const AppLayout = () => {
   return (
@@ -101,10 +100,9 @@ const router = createBrowserRouter(
       <Route path='/registration' element={<RegistrationForm />} />
     </Route>
   )
-)
+);
 
 const App = () => {
-  console.log(router)
   return <RouterProvider router={router} />
 }
 
