@@ -162,7 +162,7 @@ input[type='tel']:hover {
   transition: all 0.3s ease;
 }
 
-button[type='button'] {
+button[type='submit'] {
   display: block;
   width: 100%;
   padding: 10px 15px;
@@ -177,7 +177,7 @@ button[type='button'] {
   transition: all 0.3s ease;
 }
 
-button[type='button']:hover {
+button[type='submit']:hover {
   background-color: #00b348;
 }
 
@@ -239,13 +239,23 @@ button[type='button']:hover {
 }
 
 .tablebox {
-  width: 600px;
+  width: 1200px;
   overflow: hidden;
   margin: auto;
   padding: 32px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 35px;
   box-shadow: 0px 0px 10px #000;
+}
+
+th {
+  width: 200px;
+}
+
+td {
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
 }
 
 table,
