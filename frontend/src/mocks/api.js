@@ -44,16 +44,18 @@ users.set('dosbol', {
 let sessions = new Map();
 let history = new Map();
 history.set('abraar', [{
-    gallon: 3.7,
+    gallons: 3.7,
     address: '7001 Calhoun',
+    city: 'Houston',
     state: 'TX',
     zipcode: '77001',
     date: new Date("2023-01-01"),
     price: 5.00, 
     due: 3.7*5.00,
 }, {
-    gallon: 4.1,
+    gallons: 4.1,
     address: '7001 Calhoun',
+    city: 'Houston',
     state: 'TX',
     zipcode: '77001',
     date: new Date("2023-01-02"),
