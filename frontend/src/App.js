@@ -17,6 +17,7 @@ import Profile from './Profile'
 import HistoryForm from './HistoryForm'
 import EditProfileForm from './EditProfileForm'
 import Logout from './Logout'
+import QuoteForm from './QuoteForm'
 //import Navbar from './Navbar';
 
 const AppLayout = () => {
@@ -95,6 +96,7 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginForm />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/history' element={<HistoryForm />} />
+      <Route path='/quote' element={<QuoteForm />} />
       <Route path='/profile/edit' element={<EditProfileForm />} />
       <Route path='/registration' element={<RegistrationForm />} />
     </Route>

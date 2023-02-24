@@ -175,7 +175,8 @@ const handlers = [
         }
         let quotes = history.get(username);
         if (!quotes) {
-            quotes.set(username, []);
+            history.set(username, []);
+            quotes = [];
         }
         history.set(username, quotes.concat({
             gallon,
