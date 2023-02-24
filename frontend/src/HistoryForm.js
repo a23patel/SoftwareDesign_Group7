@@ -1,6 +1,4 @@
 import { React } from 'react'
-//import { useNavigate } from 'react-router-dom'
-//import { clientWithAuth } from './axiosClient'
 import './styling.css'
 
 const formatter = new Intl.NumberFormat('en-US', {
