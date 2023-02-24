@@ -162,7 +162,7 @@ input[type='tel']:hover {
   transition: all 0.3s ease;
 }
 
-button[type='button'] {
+button[type='submit'] {
   display: block;
   width: 100%;
   padding: 10px 15px;
@@ -177,7 +177,7 @@ button[type='button'] {
   transition: all 0.3s ease;
 }
 
-button[type='button']:hover {
+button[type='submit']:hover {
   background-color: #00b348;
 }
 
@@ -325,3 +325,4 @@ td {
 .footer p {
   margin: 0;
 }
+
