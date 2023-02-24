@@ -36,7 +36,8 @@ const EditProfileForm = () => {
     setZipcode(e.target.value)
   }
 
-  const handleProfileSubmit = async () => {
+  const handleProfileSubmit = async (e) => {
+    e.preventDefault();
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
     await clientWithAuth(token)
@@ -74,7 +75,7 @@ const EditProfileForm = () => {
       <center>
         <h1 className='h1'>UPDATE PROFILE</h1>
       </center>
-      <form type="submit">
+      <form>
       <div className='container'>
         <label className='label' htmlFor='fullname'>
           Full Name:
@@ -205,7 +206,7 @@ const EditProfileForm = () => {
           required
         />
 
-        <button type='button' onClick={handleProfileSubmit}>
+        <button type='submit' onClick={handleProfileSubmit}>
           FINISH PROFILE
         </button>
         <br />
