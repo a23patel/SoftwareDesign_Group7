@@ -15,7 +15,7 @@ users.set('michael', {
     address2: '',
     city: 'Houston',
     state: 'TX',
-    zip: '77001',
+    zipcode: '77001',
     phone: '7137778888',
 });
 users.set('abraar', {
@@ -26,7 +26,7 @@ users.set('abraar', {
     address2: '',
     city: 'Houston',
     state: 'TX',
-    zip: '77001',
+    zipcode: '77001',
     phone: '7138889999',
 });
 users.set('dosbol', {
@@ -37,7 +37,7 @@ users.set('dosbol', {
     address2: '',
     city: 'Houston',
     state: 'TX',
-    zip: '77001',
+    zipcode: '77001',
     phone: '7138882222',
 });
 
@@ -192,7 +192,7 @@ const handlers = [
         );
     }),
     rest.post('/api/quote', async (req, res, ctx) => {
-        const { username, address1, address2, city, state, zipcode, gallon, date, price, due } = await req.json();
+        const { username, address1, address2, city, state, zipcode, gallons, date, price, due } = await req.json();
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
             return res(
@@ -206,9 +206,8 @@ const handlers = [
             quotes = [];
         }
         history.set(username, quotes.concat({
-            gallon,
-            address1,
-            address2,
+            gallons,
+            address: address1+' '+address2,            
             city,
             state,
             zipcode,
@@ -265,25 +264,6 @@ const handlers = [
         }
     }),
 
-    // rest.post('/api/profile', (req, res, ctx) => {
-    //     const { username, token, name, email, address1, address2, city, state, zip, phone } = req.json();
-    //     let result = { username, token, name, email, address1, address2, city, state, zip, phone };
-    //     if (username === 'michael' && valid_token(username, token)) {
-    //         users.set(username, result);
-    //     }
-    // }),
-    // rest.get('/debug_success', (req, res, ctx) => {
-    //     return res(
-    //         ctx.status(200),
-    //         ctx.body('Debug message: success')
-    //     )
-    // }),
-    // rest.get('/debug_fail', (req, res, ctx) => {
-    //     return res(
-    //         ctx.status(404),
-    //         ctx.body('Debug message: failure')
-    //     )
-    // })
 ];
 
 export default handlers;

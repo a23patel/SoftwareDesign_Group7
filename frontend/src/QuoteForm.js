@@ -20,7 +20,7 @@ const QuoteForm = () => {
     address2: '...',
     city: '...',
     state: '...',
-    zip: '...',
+    zipcode: '...',
   })
 
   const [quote, setQuote] = useState({
@@ -60,7 +60,9 @@ const QuoteForm = () => {
       alert('Please complete the form !!')
       return
     }
-
+    // DEBUG
+    console.log(gallons);
+    console.log(date);
     await clientWithAuth(token)
       .post('/quote', {
         username,
@@ -174,7 +176,7 @@ const QuoteForm = () => {
             id='delivery_zipcode'
             name='delivery_zipcode'
             placehoder='Zipcode'
-            value={profile.zip}
+            value={profile.zipcode}
             readOnly
           />
           <br />

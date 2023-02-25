@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { clientWithAuth } from './axiosClient'
 import './styling.css'
 
@@ -13,7 +13,7 @@ const Profile = () => {
     address2: '...',
     city: '...',
     state: '...',
-    zip: '...',
+    zipcode: '...',
   })
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const Profile = () => {
       navigate('/login')
     } else {
       clientWithAuth(token).get('/profile/' + username).then((response) => {
+        console.log(response.data)
         setProfile(response.data)
       })
     }
@@ -54,12 +55,15 @@ const Profile = () => {
         <label className='label' htmlFor='zipcode'>
           Zip Code:{' '}
         </label>
-        <input type='text' value={profile.zip} />
+        <input type='text' value={profile.zipcode} />
         <h1 className='heading3'>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Want to edit your profile?
-          <a className='anchor' href='/profile/edit'>
+          {/* <a className='anchor' href='/profile/edit'>
             Click here
-          </a>
+          </a> */}
+          <Link className='anchor' to="/profile/edit">
+            Click here
+          </Link>
         </h1>
       </div>
     </>
