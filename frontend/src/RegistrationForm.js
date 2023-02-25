@@ -85,6 +85,7 @@ const RegistrationForm = () => {
             type='text'
             id='user'
             name='user'
+            pattern='[a-zA-Z0-9]{3,}'
             placeholder='Enter Username'
             onChange={handleUsernameChange}
             required
