@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { client } from './axiosClient'
 import './styling.css'
 
@@ -84,7 +84,7 @@ const LoginForm = () => {
           <center>
             <h1 className='heading1'>
               Don't have an account?
-              <a href='registration.html'> Register Here </a>
+              <Link to='/registration'> Register Here </Link>
             </h1>
           </center>
         </div>
