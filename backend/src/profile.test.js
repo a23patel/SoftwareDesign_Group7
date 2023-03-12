@@ -97,7 +97,7 @@ describe('The Profile Management Module', () => {
       zipcode: '66453',
     }
     expect(() => {
-      update_profile('elliot', profileData)
+      update_profile(username, profileData)
     }).toThrow('Unable to update profile: Profile does not exist')
   })
 })
