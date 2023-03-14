@@ -1,4 +1,9 @@
-const { createProfile, generateProfile, updateProfile } = require('./profile')
+const {
+  createProfile,
+  generateProfile,
+  updateProfile,
+  profiles,
+} = require('./profile')
 
 describe('The Profile Management Module', () => {
   test('should load', () => {
@@ -7,97 +12,152 @@ describe('The Profile Management Module', () => {
     expect(updateProfile).not.toBe(undefined)
   })
 
-  test('should create a profile for a valid user', () => {
+  test('should create a profile with a valid username', () => {
     const username = 'michael'
-    try {
-      const response = createProfile(username)
-      expect(response.success).toBe(true)
-      expect(response.message).toEqual('Profile created successfully !')
-    } catch (e) {
-      expect(e).toBeUndefined()
-    }
+    const result = createProfile(username)
+    expect(result.success).toBe(true)
+    expect(result.message).toBe('Profile created successfully !')
   })
 
-  test('should throw an error for an invalid username', () => {
+  test('should throw an error if the username is not a string', () => {
+    expect(() => createProfile(123)).toThrow()
+  })
+
+  test('should throw an error if the username is empty', () => {
+    expect(() => createProfile('   ')).toThrow()
+  })
+
+  test('should throw an error if a profile already exists with the given username', () => {
+    const username = 'dosbol'
+    createProfile(username)
+    expect(() => createProfile(username)).toThrow()
+  })
+
+  test('should generate a profile for an existing user', () => {
+    const username = 'peter'
+    createProfile(username)
+    const result = generateProfile(username)
+    expect(result.success).toBe(true)
+    expect(result.message).toBe('Profile generated successfully !')
+    expect(profiles[username].fullName).toBe('peter')
+    expect(profiles[username].address1).toBe('9703 Dunlap Ave')
+    expect(profiles[username].city).toBe('Cleveland')
+    expect(profiles[username].state).toBe('OH')
+    expect(profiles[username].zipcode).toBe('44090')
+  })
+
+  test('should throw an error if the username is not a string', () => {
+    expect(() => generateProfile(123)).toThrow(
+      'Unable to generate profile: Invalid Username'
+    )
+  })
+
+  test('should throw an error if the username is empty', () => {
+    expect(() => generateProfile('   ')).toThrow(
+      'Unable to generate profile: Invalid Username'
+    )
+  })
+
+  test('should throw an error if no profile exists with the given username', () => {
     const username = 'eve'
-    expect(() => {
-      createProfile(username)
-    }).toThrow('Unable to create profile: Invalid Username')
+    expect(() => generateProfile('user')).toThrow(
+      'Unable to generate profile: Profile does not exist'
+    )
   })
 
-  test('should throw an error if profile already exists for the user', () => {
-    const username = 'michael'
-    expect(() => {
-      createProfile(username)
-    }).toThrow('Unable to create profile: profile already exists')
-  })
-
-  test('should generate a profile for a valid user', () => {
+  test('should update a profile successfully with valid data', () => {
     const username = 'abraar'
-    try {
-      const response = generateProfile(username)
-      expect(response.success).toBe(true)
-      expect(response.message).toEqual('Profile generated successfully !')
-    } catch (e) {
-      expect(e).toBeUndefined()
+    createProfile(username)
+    const profileData = {
+      fullName: 'abraar',
+      address1: '2350 Bellaire Blvd',
+      city: 'Houston',
+      state: 'TX',
+      zipcode: '77001',
     }
+    const result = updateProfile(username, profileData)
+    expect(result.success).toBe(true)
+    expect(result.message).toBe('Profile updated successfully !')
   })
 
-  test('should throw an error for an invalid username', () => {
-    const username = 'eve'
-    expect(() => {
-      generateProfile(username)
-    }).toThrow('Unable to generate profile: Invalid Username')
+  test('should throw an error if the username is not a string', () => {
+    const profileData = {
+      fullName: 'abraar',
+      address1: '2350 Bellaire Blvd',
+      city: 'Houston',
+      state: 'TX',
+      zipcode: '77001',
+    }
+    expect(() => updateProfile(123, profileData)).toThrow(
+      'Unable to update profile: Invalid Username'
+    )
   })
 
-  test('should throw an error if profile does not exist for the user', () => {
-    expect(() => {
-      generateProfile('varun')
-    }).toThrow('Unable to generate profile: Profile does not exist')
+  test('should throw an error if the username is empty', () => {
+    const profileData = {
+      fullName: 'abraar',
+      address1: '2350 Bellaire Blvd',
+      city: 'Houston',
+      state: 'TX',
+      zipcode: '77001',
+    }
+    expect(() => updateProfile('   ', profileData)).toThrow(
+      'Unable to update profile: Invalid Username'
+    )
   })
 
-  test('should update an existing profile for a valid user', () => {
-    const username = 'michael'
-    const profiledata = {
-      fullName: 'michael',
-      address1: '9703 Dunlap Ave',
-      city: 'Cleveland',
-      state: 'OH',
-      zipcode: '44090',
-    }
-    try {
-      const response = updateProfile(username, profiledata)
-      expect(response.success).toBe(true)
-      expect(response.message).toEqual('Profile updated successfully !')
-    } catch (error) {
-      expect(error).toBeUndefined()
-    }
-  })
-  test('should throw an error for an invalid username', () => {
+  test('should throw an error if no profile exists with the given username', () => {
     const username = 'eve'
     const profileData = {
-      full_name: 'eve',
-      address1: '123 Main St',
+      fullName: 'eve',
+      address1: '234 Main St',
       city: 'Houston',
       state: 'TX',
       zipcode: '77003',
     }
-    expect(() => {
-      update_profile(username, profileData)
-    }).toThrow('Unable to update profile: Invalid Username')
+    expect(() => updateProfile(username, profileData)).toThrow()
   })
 
-  test('should throw an error if profile does not exist for the user', () => {
-    const username = 'elliot'
-    const profileData = {
-      full_name: 'elliot',
-      address1: '335 Elm St',
-      city: 'Chicago',
-      state: 'IL',
-      zipcode: '66453',
-    }
+  test('should throw an error if an invalid field is provided', () => {
+    const username = 'dosbol'
+    const profileData = { password: 'test' }
+    expect(() => updateProfile(username, profileData)).toThrow()
+  })
+
+  test('throws an error if an invalid name is provided', () => {
+    const username = 'peter'
     expect(() => {
-      update_profile(username, profileData)
-    }).toThrow('Unable to update profile: Profile does not exist')
+      updateProfile(username, { fullName: 123 })
+    }).toThrow()
+  })
+
+  test('should throw an error if an invalid address is provided', () => {
+    const username = 'taylor'
+    expect(() => {
+      updateProfile(username, { address1: 457 })
+    }).toThrow()
+  })
+
+  it('should throw an error if an invalid city is provided', () => {
+    const username = 'andy'
+    expect(() => {
+      updateProfile(username, { city: true })
+    }).toThrow()
+  })
+
+  test('should throw an error if an invalid state is provided', () => {
+    const username = 'dosbol'
+    expect(() => {
+      updateProfile(username, { state: [] })
+    }).toThrow()
+  })
+
+  test('should throw an error if an invalid zipcode is provided', () => {
+    const username = 'karthik'
+    createProfile(username)
+    const invalidZipcode = 'abcde'
+    expect(() => updateProfile(username, { zipcode: invalidZipcode })).toThrow(
+      'Invalid zipcode provided'
+    )
   })
 })
