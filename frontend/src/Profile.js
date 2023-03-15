@@ -38,24 +38,24 @@ const Profile = () => {
         <label className='label' htmlFor='fullname'>
           Full Name:{' '}
         </label>
-        <input type='text' value={profile.fullname} />
+        <input name='fullname' type='text' value={profile.fullname} />
         <br />
         <label className='label' htmlFor='address'>
           Address:{' '}
         </label>
-        <input type='text' value={profile.address1 + profile.address2} />
+        <input name='address' type='text' value={profile.address1 + profile.address2} />
         <label className='label' htmlFor='city'>
           City:{' '}
         </label>
-        <input type='text' value={profile.city} />
+        <input name='city' type='text' value={profile.city} />
         <label className='label' htmlFor='state'>
           State:{' '}
         </label>
-        <input type='text' value={profile.state} />
+        <input name='state' type='text' value={profile.state} />
         <label className='label' htmlFor='zipcode'>
           Zip Code:{' '}
         </label>
-        <input type='text' value={profile.zipcode} />
+        <input name='zipcode' type='text' value={profile.zipcode} />
         <h1 className='heading3'>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Want to edit your profile?
           {/* <a className='anchor' href='/profile/edit'>

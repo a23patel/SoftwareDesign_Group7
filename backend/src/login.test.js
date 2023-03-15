@@ -1,6 +1,6 @@
 const valid_user = {
     username: 'abraar',
-    password: 'test',
+    password: 'test2',
 };
 const invalid_user = {
     username: 'eve',
@@ -11,6 +11,7 @@ const bad_password = {
     password: 'wrongpass',
 };
 const fake_token = 'obviousfaketoken';
+const other_user = 'rishi';
 
 const { generate_token, validate_token, invalidate_token } = require('./login');
 
@@ -66,6 +67,15 @@ describe('The login module', () => {
         expect(token).not.toBeUndefined();
         const was_invalidated = invalidate_token(valid_user.username, token);
         expect(was_invalidated).toBe(true);
+        expect(validate_token(valid_user.username, token)).toBe(false);
         expect(() => invalidate_token(valid_user.username, token)).toThrow();
+    });
+    test('does not allow log in as a different user with a valid token', () => {
+        const token = generate_token(valid_user.username, valid_user.password);
+        expect(validate_token(other_user, token)).toBe(false);
+    });
+    test('does not allow invalidation of another user\'s token', () => {
+        const token = generate_token(valid_user.username, valid_user.password);
+        expect(() => invalidate_token(other_user, token)).toThrow();
     });
 });
