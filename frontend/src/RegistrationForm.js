@@ -103,7 +103,7 @@ const RegistrationForm = () => {
             required
           />
           <br />
-          <label className='label' htmlFor='Phone Number'>
+          <label className='label' htmlFor='Phone'>
             Phone Number:
           </label>
           <input
