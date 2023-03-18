@@ -53,3 +53,10 @@ TODO need to add new dependencies for testing
  npm run start
  ```
  
+  5) Installation of Nodemon
+ 
+  ```
+  npm install -g nodemon
+ ```
+
+ 
