@@ -1,7 +1,7 @@
 const { generateFuelQuote, getQuoteHistory } = require('./fuelquotes')
 
 // Mocking profile data
-const profiledata = {
+const profile = {
   username: 'dosbol',
   address: '123 Hornwood Dr',
   city: 'Houston',
