@@ -3,14 +3,16 @@ import LoginForm from './LoginForm';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
-const mockedUsedNavigate = jest.fn();
+beforeAll(() => {
+    jest.spyOn(Storage.prototype, 'setItem');
+    const mockedUsedNavigate = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockedUsedNavigate,
-}));
-
-jest.spyOn(window, 'alert').mockImplementation(() => { });
+    jest.mock('react-router-dom', () => ({
+        ...jest.requireActual('react-router-dom'),
+        useNavigate: () => mockedUsedNavigate,
+    }));
+    jest.spyOn(window, 'alert').mockImplementation(() => { });
+});
 
 describe("Login page", () => {
     test('should be able to mount', async () => {
@@ -19,7 +21,6 @@ describe("Login page", () => {
         }).not.toThrow();
     });
     test('valid user should be able to log in', async () => {
-        jest.spyOn(Storage.prototype, 'setItem');
         render(<LoginForm />, { wrapper: BrowserRouter });
         await userEvent.type(screen.getByRole('textbox', { name: /user/i }), 'abraar');
         await userEvent.type(screen.getByPlaceholderText(/.*password.*/), 'test2');
@@ -32,7 +33,6 @@ describe("Login page", () => {
         expect(localStorage.setItem).toHaveBeenCalledWith('token', 'secrettoken93423');
     });
     test('invalid user should not be able to log in', async () => {
-        jest.spyOn(Storage.prototype, 'setItem');
         render(<LoginForm />, { wrapper: BrowserRouter });
         await userEvent.type(screen.getByRole('textbox', { name: /user/i }), 'abraar');
         await userEvent.type(screen.getByPlaceholderText(/.*password.*/), 'badpass');
