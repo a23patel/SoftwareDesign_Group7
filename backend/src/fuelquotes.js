@@ -4,7 +4,7 @@ const { generateProfile } = require('./profile')
 const quoteHistory = {}
 
 const generateFuelQuote = (username, gallonsRequested, deliveryDate) => {
-  const profileData = generateProfile(username)
+  const profile = generateProfile(username)
 
   if (!profile) {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
