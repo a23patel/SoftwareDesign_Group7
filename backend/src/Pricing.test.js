@@ -1,4 +1,4 @@
-const FuelDelivery = require('./PricingModule');
+const FuelDelivery = require('./Pricing');
 
 describe('FuelDelivery', () => {
   test('getTotalAmountDue() returns the correct amount', () => {
