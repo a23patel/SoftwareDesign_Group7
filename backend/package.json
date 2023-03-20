@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "Abraar Patel, Michael Moorman, Rishi Chitturi, Dosbol Aliev",

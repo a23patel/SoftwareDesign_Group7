@@ -57,4 +57,12 @@ const invalidate_token = (username, token) => {
     return true;
 };
 
-module.exports = { generate_token, validate_token, invalidate_token };
+const create_user = (username, password) => {
+    if (users.has(username)) {
+        throw Error('User already exists');
+    }
+    users.set(username, password);
+    return true;
+}
+
+module.exports = { generate_token, validate_token, invalidate_token, create_user };
