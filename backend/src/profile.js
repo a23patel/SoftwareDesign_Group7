@@ -26,16 +26,7 @@ const createProfile = (username) => {
 }
 
 const generateProfile = (username) => {
-  // input validation for username
-  if (typeof username !== 'string' || username.trim().length === 0) {
-    throw Error('Unable to generate profile: Invalid Username')
-  }
-
   const profileData = profiles[username]
-
-  if (!profileData) {
-    throw new Error('Unable to generate profile: Profile does not exist')
-  }
 
   // Generating random profile data
   profileData.fullName = 'peter'
@@ -48,6 +39,21 @@ const generateProfile = (username) => {
   profileData.phone = '2348722325'
 
   return { success: true, message: 'Profile generated successfully !' }
+}
+
+const getProfile = (username) => {
+  // input validation for username
+  if (typeof username !== 'string' || username.trim().length === 0) {
+    throw Error('Unable to get profile of client: Invalid Username')
+  }
+
+  const profileData = profiles[username]
+
+  if (!profileData) {
+    throw new Error('Unable to get profile of client: Profile does not exist')
+  }
+
+  return profileData
 }
 
 const updateProfile = (username, profileData) => {
@@ -109,4 +115,4 @@ const updateProfile = (username, profileData) => {
   return { success: true, message: 'Profile updated successfully !' }
 }
 
-module.exports = { createProfile, generateProfile, updateProfile, profiles }
+module.exports = { createProfile, generateProfile, getProfile, updateProfile }
