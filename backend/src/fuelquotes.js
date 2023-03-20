@@ -6,12 +6,18 @@ const quoteHistory = {}
 const generateFuelQuote = (username, gallonsRequested, deliveryDate) => {
   const profile = generateProfile(username)
 
-  if (!profile) {
+  if (!username) {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
   }
 
-  const { deliveryAddress, deliveryCity, deliveryState, deliveryZipcode } =
-    profile
+  if (typeof username !== 'string') {
+    throw new Error('Unable to generate fuel quote: Invalid Username')
+  }
+
+  const deliveryAddress = profile.address1 + profile.address2
+  const deliveryCity = profile.city
+  const deliveryState = profile.state
+  const deliveryZipcode = profile.zipcode
 
   if (!deliveryAddress || !deliveryCity || !deliveryState || !deliveryZipcode) {
     throw new Error('Unable to generate fuel quote: Incomplete profile')
