@@ -40,10 +40,12 @@ describe('The Profile Management Module', () => {
     expect(result.success).toBe(true)
     expect(result.message).toBe('Profile generated successfully !')
     expect(profiles[username].fullName).toBe('peter')
+    expect(profiles[username].email).toBe('peter653@gmail.com')
     expect(profiles[username].address1).toBe('9703 Dunlap Ave')
     expect(profiles[username].city).toBe('Cleveland')
     expect(profiles[username].state).toBe('OH')
     expect(profiles[username].zipcode).toBe('44090')
+    expect(profiles[username].phone).toBe('2348722325')
   })
 
   test('should throw an error if the username is not a string', () => {
@@ -131,6 +133,13 @@ describe('The Profile Management Module', () => {
     }).toThrow()
   })
 
+  test('should throw an error if an invalid email is provided', () => {
+    const username = 'karthik'
+    createProfile(username)
+    const invalidEmail = 'karthik.233.gmail.com'
+    expect(() => updateProfile(username, { email: invalidEmail })).toThrow()
+  })
+
   test('should throw an error if an invalid address is provided', () => {
     const username = 'taylor'
     expect(() => {
@@ -153,11 +162,16 @@ describe('The Profile Management Module', () => {
   })
 
   test('should throw an error if an invalid zipcode is provided', () => {
-    const username = 'karthik'
+    const username = 'darsh'
     createProfile(username)
-    const invalidZipcode = 'abcde'
-    expect(() => updateProfile(username, { zipcode: invalidZipcode })).toThrow(
-      'Invalid zipcode provided'
-    )
+    const invalidZipcode = 664
+    expect(() => updateProfile(username, { zipcode: invalidZipcode })).toThrow()
+  })
+
+  test('should throw an error if an invalid phone number is provided', () => {
+    const username = 'tommy'
+    createProfile(username)
+    const invalidPhone = 8324562
+    expect(() => updateProfile(username, { phone: invalidPhone })).toThrow()
   })
 })

@@ -11,11 +11,13 @@ const createProfile = (username) => {
 
   const profileData = {
     fullName: '',
+    email: '',
     address1: '',
     address2: '',
     city: '',
     state: '',
     zipcode: '',
+    phone: '',
   }
 
   profiles[username] = profileData
@@ -37,11 +39,13 @@ const generateProfile = (username) => {
 
   // Generating random profile data
   profileData.fullName = 'peter'
+  profileData.email = 'peter653@gmail.com'
   profileData.address1 = '9703 Dunlap Ave'
   profileData.address2 = ''
   profileData.city = 'Cleveland'
   profileData.state = 'OH'
   profileData.zipcode = '44090'
+  profileData.phone = '2348722325'
 
   return { success: true, message: 'Profile generated successfully !' }
 }
@@ -57,17 +61,28 @@ const updateProfile = (username, profileData) => {
 
   const validKeys = [
     'fullName',
+    'email',
     'address1',
     'address2',
     'city',
     'state',
     'zipcode',
+    'phone',
   ]
 
   // input validation for the fields of profileData
   Object.keys(profileData).forEach((key) => {
     if (!validKeys.includes(key)) {
       throw new Error(`Invalid field provided: ${key}`)
+    }
+    if (
+      key == 'email' &&
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(profileData.email)
+    ) {
+      throw new Error('Invalid email address provided')
+    }
+    if (key === 'phone' && !/^[0-9]{10}$/.test(profileData.phone)) {
+      throw new Error('Invalid phone number provided')
     }
     if (key === 'zipcode' && !/^[0-9]{5}$/.test(profileData.zipcode)) {
       throw new Error('Invalid zipcode provided')
@@ -77,6 +92,8 @@ const updateProfile = (username, profileData) => {
         key === 'city' ||
         key === 'address1' ||
         key === 'address2' ||
+        key === 'email' ||
+        key === 'phone' ||
         key === 'fullName') &&
       typeof profileData[key] !== 'string'
     ) {
