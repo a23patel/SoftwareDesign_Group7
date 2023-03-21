@@ -15,7 +15,7 @@ app.get('/api/history/:username', (req, res) => {
   if (!validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
-    // we would use getQuoteHistory to get the quote history
+    // we would use getQuoteHistory to get the quote history. Thanks
     const historyQuotes = getQuoteHistory(username)
     res.status(200).json(historyQuotes)
   }
