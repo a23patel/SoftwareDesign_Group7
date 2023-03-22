@@ -1,4 +1,8 @@
-const { generateFuelQuote, getQuoteHistory } = require('./fuelquotes')
+const {
+  generateFuelQuote,
+  submitFuelQuote,
+  getQuoteHistory,
+} = require('./fuelquotes')
 
 // Mocking profile data
 const profile = {
@@ -11,7 +15,7 @@ const profile = {
 
 // Mocking generateProfile function
 jest.mock('./profile', () => ({
-  generateProfile: jest.fn(() => profile),
+  getProfile: jest.fn(() => profile),
 }))
 
 describe('The Fuel Quote Module', () => {
@@ -33,16 +37,21 @@ describe('The Fuel Quote Module', () => {
 
     expect(result).toEqual(
       expect.objectContaining({
-        deliveryDate: '2023-03-31',
-        gallonsRequested: 150,
-        deliveryAddress: '123 Hornwood Dr',
-        deliveryCity: 'Houston',
-        deliveryState: 'TX',
-        deliveryZipcode: '77097',
-        suggestedPricePerGallon: 1.5,
-        totalAmountDue: 225,
+        gallon: 150,
+        address: '123 Hornwood Dr',
+        city: 'Houston',
+        state: 'TX',
+        zipcode: '77097',
+        price: 1.5,
+        due: 225,
       })
     )
+  })
+
+  test('should submit the fuel quote for the user', () => {
+    const result = submitFuelQuote('dosbol', 150, '2023-03-31')
+    expect(result.success).toBe(true)
+    expect(result.message).toBe('Fuel quote submitted successfully !')
   })
 
   test('should throw an error when profile is incomplete', () => {
@@ -65,14 +74,14 @@ describe('The Fuel Quote Module', () => {
     expect(result.length).toBe(1)
     expect(result[0]).toEqual(
       expect.objectContaining({
-        deliveryDate: '2023-03-31',
-        gallonsRequested: 150,
-        deliveryAddress: '123 Hornwood Dr',
-        deliveryCity: 'Houston',
-        deliveryState: 'TX',
-        deliveryZipcode: '77097',
-        suggestedPricePerGallon: 1.5,
-        totalAmountDue: 225,
+        date: '2023-03-31',
+        gallons: 150,
+        address: '123 Hornwood Dr',
+        city: 'Houston',
+        state: 'TX',
+        zipcode: '77097',
+        price: 1.5,
+        due: 225,
       })
     )
   })

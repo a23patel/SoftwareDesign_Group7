@@ -1,10 +1,10 @@
 const FuelDelivery = require('./pricing')
-const { generateProfile } = require('./profile')
+const { getProfile } = require('./profile')
 
 const quoteHistory = {}
 
-const generateFuelQuote = (username, gallonsRequested, deliveryDate) => {
-  const profile = generateProfile(username)
+const generateFuelQuote = (username, gallons, date) => {
+  const profile = getProfile(username)
 
   if (!username) {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
@@ -14,48 +14,58 @@ const generateFuelQuote = (username, gallonsRequested, deliveryDate) => {
     throw new Error('Unable to generate fuel quote: Invalid Username')
   }
 
-  const deliveryAddress = profile.address1 + profile.address2
-  const deliveryCity = profile.city
-  const deliveryState = profile.state
-  const deliveryZipcode = profile.zipcode
+  const address = profile.address1 + profile.address2
+  const city = profile.city
+  const state = profile.state
+  const zipcode = profile.zipcode
 
-  if (!deliveryAddress || !deliveryCity || !deliveryState || !deliveryZipcode) {
+  if (!address || !city || !state || !zipcode) {
     throw new Error('Unable to generate fuel quote: Incomplete profile')
   }
 
-  if (typeof gallonsRequested !== 'number' || gallonsRequested < 0) {
+  if (typeof gallons !== 'number' || gallons < 0) {
     throw new Error('Unable to generate fuel quote: Invalid gallons requested')
   }
 
-  const suggestedPricePerGallon = 1.5
+  const price = 1.5
   const fuelDelivery = new FuelDelivery(
-    gallonsRequested,
-    deliveryDate,
-    deliveryAddress,
-    deliveryCity,
-    deliveryState,
-    deliveryZipcode,
-    suggestedPricePerGallon
+    gallons,
+    date,
+    address,
+    city,
+    state,
+    zipcode,
+    price
   )
+
+  const newQuote = {
+    gallons,
+    address,
+    city,
+    state,
+    zipcode,
+    price,
+    due: fuelDelivery.getTotalAmountDue(),
+  }
+
+  return newQuote
+}
+
+const submitFuelQuote = (username, gallons, date) => {
+  if (typeof username !== 'string') {
+    throw new Error('Unable to submit fuel quote: Invalid Username')
+  }
+
+  const quote = generateFuelQuote(username, gallons, date)
+  quote.date = date
 
   if (!quoteHistory[username]) {
     quoteHistory[username] = []
   }
 
-  const newQuote = {
-    deliveryDate,
-    gallonsRequested,
-    deliveryAddress,
-    deliveryCity,
-    deliveryState,
-    deliveryZipcode,
-    suggestedPricePerGallon,
-    totalAmountDue: fuelDelivery.getTotalAmountDue(),
-  }
+  quoteHistory[username].push(quote)
 
-  quoteHistory[username].push(newQuote)
-
-  return newQuote
+  return { success: true, message: 'Fuel quote submitted successfully !' }
 }
 
 const getQuoteHistory = (username) => {
@@ -70,5 +80,6 @@ const getQuoteHistory = (username) => {
 
 module.exports = {
   generateFuelQuote,
+  submitFuelQuote,
   getQuoteHistory,
 }
