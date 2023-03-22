@@ -117,7 +117,7 @@ describe('The Profile Management Module', () => {
   test('throws an error if an invalid name is provided', () => {
     const username = 'peter'
     expect(() => {
-      updateProfile(username, { fullName: 123 })
+      updateProfile(username, { fullname: 123 })
     }).toThrow()
   })
 
