@@ -37,7 +37,7 @@ describe('The Fuel Quote Module', () => {
 
     expect(result).toEqual(
       expect.objectContaining({
-        gallon: 150,
+        gallons: 150,
         address: '123 Hornwood Dr',
         city: 'Houston',
         state: 'TX',

@@ -30,7 +30,6 @@ const generateFuelQuote = (username, gallons, date) => {
   const price = 1.5
   const fuelDelivery = new FuelDelivery(
     gallons,
-    date,
     address,
     city,
     state,
