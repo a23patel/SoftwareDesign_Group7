@@ -10,7 +10,7 @@ const createProfile = (username) => {
   }
 
   const profileData = {
-    fullName: '',
+    fullname: '',
     email: '',
     address1: '',
     address2: '',
@@ -29,7 +29,7 @@ const generateProfile = (username) => {
   const profileData = profiles[username]
 
   // Generating random profile data
-  profileData.fullName = 'peter'
+  profileData.fullname = 'peter'
   profileData.email = 'peter653@gmail.com'
   profileData.address1 = '9703 Dunlap Ave'
   profileData.address2 = ''
@@ -66,7 +66,7 @@ const updateProfile = (username, profileData) => {
   }
 
   const validKeys = [
-    'fullName',
+    'fullname',
     'email',
     'address1',
     'address2',
@@ -100,7 +100,7 @@ const updateProfile = (username, profileData) => {
         key === 'address2' ||
         key === 'email' ||
         key === 'phone' ||
-        key === 'fullName') &&
+        key === 'fullname') &&
       typeof profileData[key] !== 'string'
     ) {
       throw new Error(`${key} should be a string`)
