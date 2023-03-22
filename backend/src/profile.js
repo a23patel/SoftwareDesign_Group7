@@ -100,7 +100,7 @@ const updateProfile = (username, profileData) => {
         key === 'address2' ||
         key === 'email' ||
         key === 'phone' ||
-        key === 'fullName') &&
+        key === 'fullname') &&
       typeof profileData[key] !== 'string'
     ) {
       throw new Error(`${key} should be a string`)

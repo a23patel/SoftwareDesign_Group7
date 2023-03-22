@@ -13,6 +13,19 @@ const PORT = process.env.PORT || 3001
 const app = express()
 app.use(express.json())
 
+
+app.get('/api/history/:username', (req, res) => {
+  const { username} = req.params
+  const token = req.headers['authorization'].split(' ')[1]
+  if (!validate_token(username, token)) {
+    res.status(400).json({ msg: 'Error: Invalid login' })
+  } else {
+    // we would use getQuoteHistory to get the quote history
+    const historyQuotes = getQuoteHistory(username)
+    res.status(200).json(historyQuotes)
+  }
+})
+
 app.post('/api/login', (req, res) => {
   try {
     const token = generate_token(req.body.username, req.body.password)

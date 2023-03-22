@@ -61,7 +61,7 @@ quotes: [{
 	address: (string)
 	city: (string)
 	state: (string)
-	zip: (string)
+	zipcode: (string)
 	date: (string)
 	price: (float)
 	due: (float)
@@ -126,7 +126,7 @@ address1: (string)
 address2: (string, optional)
 city: (string),
 state: (string),
-zip (string),
+zipcode: (string),
 phone: (string)
 
 HTTP Status Codes:
