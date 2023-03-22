@@ -77,6 +77,7 @@ const updateProfile = (username, profileData) => {
   ]
 
   // input validation for the fields of profileData
+  // TODO change this so that fields are optional and stuff.
   Object.keys(profileData).forEach((key) => {
     if (!validKeys.includes(key)) {
       throw new Error(`Invalid field provided: ${key}`)

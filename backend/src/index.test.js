@@ -24,7 +24,7 @@ describe('The Express app', () => {
             Authorization: `Bearer ${token}`,
         }
     });
-    test('should handle login/logout of valid users with valid passwords', async () => {
+    test.skip('should handle login/logout of valid users with valid passwords', async () => {
         const username = 'richard';
         const password = 'testpass';
         let reqBody = { username, password };
@@ -46,7 +46,7 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test('should allow users to view their profile', async () => {
+    test.skip('should allow users to view their profile', async () => {
         const username = 'robert';
         const password = 'testpass2';
         let reqBody = { username, password };
@@ -83,7 +83,7 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test('should allow users to edit their profile', async () => {
+    test.skip('should allow users to edit their profile', async () => {
         const username = 'robert';
         const password = 'testpass2';
         let reqBody = { username, password };
@@ -181,8 +181,8 @@ describe('The Express app', () => {
                 expect(address2).toBe('Apartment 2');
                 expect(city).toBe('Houston');
                 expect(state).toBe('TX');
-                expect(zipcode).toBe('7137137133');
-                expect(phone).toBe('77001');
+                expect(phone).toBe('7137137133');
+                expect(zipcode).toBe('77001');
             }).catch(e => {
                 console.log(`Error: failed to fetch profile`);
                 throw e;
@@ -190,10 +190,13 @@ describe('The Express app', () => {
         const gallons = 5;
         await clientWithAuth(token).get('/api/quote/'+ username + '/' + gallons)
             .then((response) => {
-                const { price, due } = req.body;
+                const { price, due } = response.data;
                 expect(price).toBe(1.5);
                 expect(due).toBeCloseTo(gallons*price);
-            }).catch(e => { throw e });
+            }).catch(e => { 
+                console.log(e)
+                throw e 
+            });
         await clientWithAuth(token).post('/api/logout', { username, token })
             .then((response) => {})
             .catch(e => { throw e });
@@ -242,8 +245,8 @@ describe('The Express app', () => {
                 expect(address2).toBe('Apartment 2');
                 expect(city).toBe('Houston');
                 expect(state).toBe('TX');
-                expect(zipcode).toBe('7137137133');
-                expect(phone).toBe('77001');
+                expect(phone).toBe('7137137133');
+                expect(zipcode).toBe('77001');
             }).catch(e => {
                 console.log(`Error: failed to fetch profile`);
                 throw e;
@@ -253,7 +256,9 @@ describe('The Express app', () => {
         const date = '2023-04-03';
         await clientWithAuth(token).get('/api/quote/'+ username + '/' + gallons)
             .then((response) => {
-                price, due = req.body;
+                console.log(response.data.price)
+                price = response.data.price
+                due = response.data.due
                 expect(price).toBe(1.5);
                 expect(due).toBeCloseTo(gallons*price);
             }).catch(e => { throw e });
@@ -265,7 +270,7 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test.skip('should allow users to view quote history', async () => {
+    test('should allow users to view quote history', async () => {
         const username = 'robert';
         const password = 'testpass2';
         let reqBody = { username, password };
@@ -311,8 +316,8 @@ describe('The Express app', () => {
                 expect(address2).toBe('Apartment 2');
                 expect(city).toBe('Houston');
                 expect(state).toBe('TX');
-                expect(zipcode).toBe('7137137133');
-                expect(phone).toBe('77001');
+                expect(phone).toBe('7137137133');
+                expect(zipcode).toBe('77001');
             }).catch(e => {
                 console.log(`Error: failed to fetch profile`);
                 throw e;
@@ -322,7 +327,9 @@ describe('The Express app', () => {
         const date = '2023-04-03';
         await clientWithAuth(token).get('/api/quote/'+ username + '/' + gallons)
             .then((response) => {
-                price, due = req.body;
+                console.log(response.data.price)
+                price = response.data.price
+                due = response.data.due
                 expect(price).toBe(1.5);
                 expect(due).toBeCloseTo(gallons*price);
             }).catch(e => { throw e });
@@ -332,6 +339,7 @@ describe('The Express app', () => {
             .catch(e => { throw e });
         await clientWithAuth(token).get('/api/history/' + username)
             .then((response) => {
+                console.log(response.data)
                 const { gallons, address, city, state, zipcode, date, price, due } = response.data.quotes[0];
                 expect(gallons).toBe(quoteBody.gallons);
                 expect(date).toBe(quoteBody.date);

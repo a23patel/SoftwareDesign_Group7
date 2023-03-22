@@ -1,5 +1,8 @@
 const express = require('express')
-const { generateFuelQuote } = require('./fuelquotes')
+const {
+    generateFuelQuote,
+    submitFuelQuote,
+    getQuoteHistory, } = require('./fuelquotes')
 const { createProfile, getProfile, updateProfile } = require('./profile')
 const {
   generate_token,
@@ -13,6 +16,29 @@ const PORT = process.env.PORT || 3001
 const app = express()
 app.use(express.json())
 
+app.get('/api/quote/:username/:gallons', (req, res) => {
+    const { username, gallons } = req.params
+    const token = req.headers['authorization'].split(' ')[1]
+    if (!validate_token(username, token)) {
+      res.status(400).json({ msg: 'Error: Invalid login' })
+    } else {
+      // we would use getQuoteHistory to get the quote history
+      const { price, due } = generateFuelQuote(username, Number(gallons))
+      res.status(200).json({ price, due })
+    }
+})
+
+app.post('/api/quote', (req, res) => {
+    const token = req.headers['authorization'].split(' ')[1]
+    if (!validate_token(req.body.username, token)) {
+      res.status(400).json({ msg: 'Error: Invalid login' })
+    } else {
+      // We use submitFuelQuote
+      const { username, gallons, date } = req.body
+      const { success, message } = submitFuelQuote(username, gallons, date)
+      res.status(200).json({ message })
+    }
+  })
 
 app.get('/api/history/:username', (req, res) => {
   const { username} = req.params
@@ -22,7 +48,7 @@ app.get('/api/history/:username', (req, res) => {
   } else {
     // we would use getQuoteHistory to get the quote history
     const historyQuotes = getQuoteHistory(username)
-    res.status(200).json(historyQuotes)
+    res.status(200).json({ message: 'Success', quotes: historyQuotes })
   }
 })
 
@@ -78,14 +104,13 @@ app.get('/api/profile/:username', (req, res) => {
 
 app.post('/api/profile/edit', (req, res) => {
   const token = req.headers['authorization'].split(' ')[1]
-  console.log(token)
-  console.log(req.body.username)
   if (!validate_token(req.body.username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use updateProfile to edit the profile
-    console.log(req.body)
-    const updatedProfile = updateProfile(req.body.username, req.body)
+    const { fullname, email, address1, address2, city, state, zipcode, phone } = req.body
+    const newProfile = { fullname, email, address1, address2, city, state, zipcode, phone }
+    const updatedProfile = updateProfile(req.body.username, newProfile)
     res.status(200).json(updatedProfile)
   }
 })
