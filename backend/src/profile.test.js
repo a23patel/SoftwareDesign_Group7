@@ -1,9 +1,4 @@
-const {
-  createProfile,
-  generateProfile,
-  getProfile,
-  updateProfile,
-} = require('./profile')
+const {createProfile, generateProfile, getProfile, updateProfile} = require('./profile')
 
 describe('The Profile Management Module', () => {
   test('should load', () => {
@@ -37,9 +32,8 @@ describe('The Profile Management Module', () => {
     const username = 'peter'
     createProfile(username)
     generateProfile(username)
-    const { fullName, email, address1, city, state, zipcode, phone } =
-      getProfile(username)
-    expect(fullName).toEqual('peter')
+    const { fullname, email, address1, city, state, zipcode, phone } = getProfile(username)
+    expect(fullname).toEqual('peter')
     expect(email).toEqual('peter653@gmail.com')
     expect(address1).toEqual('9703 Dunlap Ave')
     expect(city).toEqual('Cleveland')
@@ -65,7 +59,7 @@ describe('The Profile Management Module', () => {
     const username = 'abraar'
     createProfile(username)
     const profileData = {
-      fullName: 'abraar',
+      fullname: 'abraar',
       address1: '2350 Bellaire Blvd',
       city: 'Houston',
       state: 'TX',
@@ -78,7 +72,7 @@ describe('The Profile Management Module', () => {
 
   test('should throw an error if the username is not a string', () => {
     const profileData = {
-      fullName: 'abraar',
+      fullname: 'abraar',
       address1: '2350 Bellaire Blvd',
       city: 'Houston',
       state: 'TX',
@@ -91,7 +85,7 @@ describe('The Profile Management Module', () => {
 
   test('should throw an error if the username is empty', () => {
     const profileData = {
-      fullName: 'abraar',
+      fullname: 'abraar',
       address1: '2350 Bellaire Blvd',
       city: 'Houston',
       state: 'TX',
@@ -105,7 +99,7 @@ describe('The Profile Management Module', () => {
   test('should throw an error if no profile exists with the given username', () => {
     const username = 'eve'
     const profileData = {
-      fullName: 'eve',
+      fullname: 'eve',
       address1: '234 Main St',
       city: 'Houston',
       state: 'TX',
