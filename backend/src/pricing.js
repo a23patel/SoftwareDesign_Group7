@@ -1,28 +1,19 @@
 class FuelDelivery {
-  constructor(
-    gallonsRequested,
-    deliveryDate,
-    deliveryAddress,
-    deliveryCity,
-    deliveryState,
-    deliveryZipcode,
-    suggestedPricePerGallon
-  ) {
-    this.gallonsRequested = gallonsRequested;
-    this.deliveryDate = deliveryDate;
-    this.deliveryAddress = deliveryAddress;
-    this.deliveryCity = deliveryCity;
-    this.deliveryState = deliveryState;
-    this.deliveryZipcode = deliveryZipcode;
-    this.suggestedPricePerGallon = suggestedPricePerGallon;
+  constructor(gallons, address, city, state, zipcode, price) {
+    this.gallons = gallons
+    this.address = address
+    this.city = city
+    this.state = state
+    this.zipcode = zipcode
+    this.price = price
   }
 
   getTotalAmountDue() {
-    if (this.gallonsRequested < 0 || this.suggestedPricePerGallon < 0) {
-      return NaN;
+    if (this.gallons < 0 || this.price < 0) {
+      return NaN
     }
-    return this.gallonsRequested * this.suggestedPricePerGallon;
+    return this.gallons * this.price
   }
 }
 
-module.exports = FuelDelivery;
+module.exports = FuelDelivery
