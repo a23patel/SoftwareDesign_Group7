@@ -22,7 +22,7 @@ const generateFuelQuote = (username, gallons, date) => {
   if (!address || !city || !state || !zipcode) {
     throw new Error('Unable to generate fuel quote: Incomplete profile')
   }
-
+  // TODO make this so that it parses the input as a number
   if (typeof gallons !== 'number' || gallons < 0) {
     throw new Error('Unable to generate fuel quote: Invalid gallons requested')
   }
