@@ -6,8 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 const prepare = () => {
   if (process.env.NODE_ENV === 'development') {
-    const { worker } = require('./mocks/worker');
-    worker.start();
+    // TODO fix this so that it is user selectable
+    //const { worker } = require('./mocks/worker');
+    //worker.start();
   }
   return Promise.resolve()
 }
