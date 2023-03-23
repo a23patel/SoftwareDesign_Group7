@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const {
     generateFuelQuote,
     submitFuelQuote,
@@ -15,6 +16,9 @@ const PORT = process.env.PORT || 3001
 
 const app = express()
 app.use(express.json())
+app.use(cors({
+    origin: 'http://localhost:3000'
+}))
 
 app.get('/api/quote/:username/:gallons', (req, res) => {
     const { username, gallons } = req.params
