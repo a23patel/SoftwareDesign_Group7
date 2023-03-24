@@ -25,15 +25,15 @@ describe('The Fuel Quote Module', () => {
   })
 
   test('throws an error if profile does not exist', () => {
-    expect(() => generateFuelQuote(null, 280, '2023-04-03')).toThrow()
+    expect(() => generateFuelQuote(null, 280)).toThrow()
   })
 
   test('throws an error if username is invalid', () => {
-    expect(() => generateFuelQuote(235, 125, '2023-04-07')).toThrow()
+    expect(() => generateFuelQuote(235, 125)).toThrow()
   })
 
   test('should generate a fuel quote for a user with complete profile and valid gallons requested', () => {
-    const result = generateFuelQuote('dosbol', 150, '2023-03-31')
+    const result = generateFuelQuote('dosbol', 150)
 
     expect(result).toEqual(
       expect.objectContaining({
@@ -58,13 +58,13 @@ describe('The Fuel Quote Module', () => {
     profile.zipcode = null
 
     expect(() => {
-      generateFuelQuote('dosbol', 150, '2023-03-31')
+      generateFuelQuote('dosbol', 150)
     }).toThrow()
   })
 
   test('should throw an error when gallons requested is invalid', () => {
     expect(() => {
-      generateFuelQuote('dosbol', -10, '2023-03-31')
+      generateFuelQuote('dosbol', -10)
     }).toThrow()
   })
 
