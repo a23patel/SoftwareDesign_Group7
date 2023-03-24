@@ -40,23 +40,44 @@
   
  2) Install <a href="https://git-scm.com/">Git</a>, <a href="https://code.visualstudio.com/download">Visual Studio Code</a>, <a href="https://nodejs.org">NodeJS</a></li>
 
- 3) Install the following NodeJS libraries:
-
- ```shell
-npm install msw react-router-dom axios
+ 3) Install the NPM package dependencies for the frontend and backend:
  ```
-TODO need to add new dependencies for testing
-
- 4) Run in development mode:
-
- ```
- npm run start
+ cd frontend
+ npm i
+ cd ../backend
+ npm i
  ```
  
-  5) Installation of Nodemon
+ 4) Installation of nodemon: required for running the backend Node.js daemon
  
   ```
   npm install -g nodemon
+  ```
+
+Now we can test the frontend and backend separately, or run them in development mode together:
+
+Testing mode:
+
+ 1) Start backend or frontend in testing mode:
  ```
+ cd frontend
+ npm test
+ ```
+
+We can generate code coverage reports using IstanbulJS and jest
+
+Development mode:
+
+ 1) Start backend, it will automatically begin listening on `localhost:3001`:
+ ```
+ cd backend
+ npm start
+ ```
+ 2) In a separate terminal, start frontend, it will automatically begin listening on `localhost:3000` and open a browser tab:
+ ```
+ cd frontend
+ npm start
+ ```
+
 
  
