@@ -2,15 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styling.css';
 import App from './App';
+import { baseURL, start_mock } from './config'
 import reportWebVitals from './reportWebVitals';
 
 const prepare = () => {
-  if (process.env.NODE_ENV === 'development') {
-    // TODO fix this so that it is user selectable
-    //const { worker } = require('./mocks/worker');
-    //worker.start();
+  if (start_mock) {
+    console.log(`Starting MSW for mocking backend`);
+    const { worker } = require('./mocks/worker');
+    worker.start();
   }
-  return Promise.resolve()
+  console.log(`Loading frontend...connect to API at ${baseURL}`);
+  return Promise.resolve();
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
