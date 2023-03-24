@@ -16,6 +16,8 @@ const Profile = () => {
     zipcode: '...',
   })
 
+  const formatFullAddress = () => profile.address1 + ', ' + profile.address2
+
   useEffect(() => {
     if (!token) {
       localStorage.clear()
@@ -43,7 +45,7 @@ const Profile = () => {
         <label className='label' htmlFor='address'>
           Address:{' '}
         </label>
-        <input name='address' type='text' value={profile.address1 + profile.address2} />
+        <input name='address' type='text' value={formatFullAddress()} />
         <label className='label' htmlFor='city'>
           City:{' '}
         </label>
