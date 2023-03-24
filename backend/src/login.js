@@ -1,4 +1,5 @@
 // Login module skeleton
+const { initializeQuoteHistory } = require('./fuelquotes')
 const jwt = require('jsonwebtoken');
 
 // TODO make this crypto secure!
@@ -13,6 +14,7 @@ users.set('rishi', 'test4');
 
 var invalid_sessions = new Map();
 
+// TODO need to add input validation
 const generate_token = (username, password) => {
     // Validate that the username and password are in agreement
     // TODO implement a database lookup to do this
@@ -62,6 +64,7 @@ const create_user = (username, password) => {
         throw Error('User already exists');
     }
     users.set(username, password);
+    initializeQuoteHistory(username);
     return true;
 }
 

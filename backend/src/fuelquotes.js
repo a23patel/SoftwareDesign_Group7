@@ -77,8 +77,23 @@ const getQuoteHistory = (username) => {
   return quoteHistory[username]
 }
 
+// TODO we might refactor this away, this depends on separation of concerns
+// who should handle this? login module or quote module?
+// For now, it has to be here to provide the login module access to modify quoteHistory
+const initializeQuoteHistory = (username) => {
+  // validate username
+  if (!username || typeof username !== 'string') {
+    throw new Error('Unable to initialize quote history: username is invalid')
+  }
+  if (quoteHistory[username] !== undefined) {
+    throw new Error('Unable to initialize quote history: user already exists')
+  }
+  quoteHistory[username] = []
+}
+
 module.exports = {
   generateFuelQuote,
   submitFuelQuote,
   getQuoteHistory,
+  initializeQuoteHistory
 }
