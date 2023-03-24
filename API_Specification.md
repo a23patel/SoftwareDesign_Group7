@@ -57,7 +57,7 @@ Headers: Authorize with Bearer token
 Return value: JSON body
 message (string)
 quotes: [{
-	gallon: (float)
+	gallons: (float)
 	address: (string)
 	city: (string)
 	state: (string)
@@ -94,7 +94,7 @@ HTTP Status Codes:
 
 Parameters: JSON body
 username (string)
-gallon: (integer)
+gallons: (integer)
 date: (string)
 price: (float)
 due: (float)
