@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Helper functions for using Axios
 
-const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 
 // Create an unauthenticated Axios client pointing at the API base
 // Calls to POST and GET requests are made relative to baseURL/api
