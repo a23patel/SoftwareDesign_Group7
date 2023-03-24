@@ -5,26 +5,26 @@ const PORT = 3001;
 const BACKEND_URL = `http://localhost:${PORT}`;
 
 let server = undefined; 
+let client = undefined;
+let clientWithAuth = undefined;
 
 beforeEach(() => {
     server = app.listen(PORT, () => {
         console.log(`Starting server listening on port ${PORT}`)
     });
+    client = axios.create({ baseURL: BACKEND_URL });
+    clientWithAuth = (token) => axios.create({
+        baseURL: BACKEND_URL,
+        headers: { Authorization: `Bearer ${token}`}
+    });
 });
 
 afterEach(() => {
     server.close();
-})
+});
 
 describe('The Express app', () => {
-    const client = axios.create({ baseURL: BACKEND_URL });
-    const clientWithAuth = (token) => axios.create({
-        baseURL: BACKEND_URL,
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
-    test.skip('should handle login/logout of valid users with valid passwords', async () => {
+    test('should handle login/logout of valid users with valid passwords', async () => {
         const username = 'richard';
         const password = 'testpass';
         let reqBody = { username, password };
@@ -46,7 +46,7 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test.skip('should allow users to view their profile', async () => {
+    test('should allow users to view their profile', async () => {
         const username = 'robert';
         const password = 'testpass2';
         let reqBody = { username, password };
@@ -83,9 +83,9 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test.skip('should allow users to edit their profile', async () => {
-        const username = 'robert';
-        const password = 'testpass2';
+    test('should allow users to edit their profile', async () => {
+        const username = 'riley';
+        const password = 'testpass3';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -127,8 +127,8 @@ describe('The Express app', () => {
                 expect(address2).toBe('Apartment 2');
                 expect(city).toBe('Houston');
                 expect(state).toBe('TX');
-                expect(zipcode).toBe('7137137133');
-                expect(phone).toBe('77001');
+                expect(phone).toBe('7137137133');
+                expect(zipcode).toBe('77001');
             }).catch(e => {
                 console.log(`Error: failed to fetch profile`);
                 throw e;
@@ -137,8 +137,8 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test.skip('should allow users to generate quotes', async () => {
-        const username = 'robert';
+    test('should allow users to generate quotes', async () => {
+        const username = 'roland';
         const password = 'testpass2';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
@@ -201,8 +201,8 @@ describe('The Express app', () => {
             .then((response) => {})
             .catch(e => { throw e });
     });
-    test.skip('should allow users to submit quotes', async () => {
-        const username = 'robert';
+    test('should allow users to submit quotes', async () => {
+        const username = 'rachel';
         const password = 'testpass2';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
@@ -271,7 +271,7 @@ describe('The Express app', () => {
             .catch(e => { throw e });
     });
     test('should allow users to view quote history', async () => {
-        const username = 'robert';
+        const username = 'raquel';
         const password = 'testpass2';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
