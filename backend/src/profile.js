@@ -56,7 +56,7 @@ const getProfile = (username) => {
   return profileData
 }
 
-const updateProfile = (username, profileData) => {
+const updateProfile = (username, newProfileData) => {
   if (typeof username !== 'string' || username.trim().length === 0) {
     throw new Error('Unable to update profile: Invalid Username')
   }
@@ -64,6 +64,8 @@ const updateProfile = (username, profileData) => {
   if (!profiles[username]) {
     throw new Error('Unable to update profile: Profile does not exist')
   }
+
+  let oldProfile = profiles[username]
 
   const validKeys = [
     'fullname',
@@ -77,21 +79,22 @@ const updateProfile = (username, profileData) => {
   ]
 
   // input validation for the fields of profileData
-  // TODO change this so that fields are optional and stuff.
-  Object.keys(profileData).forEach((key) => {
+  Object.keys(newProfileData).forEach((key) => {
     if (!validKeys.includes(key)) {
       throw new Error(`Invalid field provided: ${key}`)
     }
+    // If the new profile data doesn't update anything, we ignore it by returning early
+    if (newProfileData[key] === undefined) return
     if (
       key == 'email' &&
-      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(profileData.email)
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newProfileData.email)
     ) {
       throw new Error('Invalid email address provided')
     }
-    if (key === 'phone' && !/^[0-9]{10}$/.test(profileData.phone)) {
+    if (key === 'phone' && !/^[0-9]{10}$/.test(newProfileData.phone)) {
       throw new Error('Invalid phone number provided')
     }
-    if (key === 'zipcode' && !/^[0-9]{5}$/.test(profileData.zipcode)) {
+    if (key === 'zipcode' && !/^[0-9]{5}$/.test(newProfileData.zipcode)) {
       throw new Error('Invalid zipcode provided')
     }
     if (
@@ -102,16 +105,16 @@ const updateProfile = (username, profileData) => {
         key === 'email' ||
         key === 'phone' ||
         key === 'fullname') &&
-      typeof profileData[key] !== 'string'
+      typeof newProfileData[key] !== 'string'
     ) {
       throw new Error(`${key} should be a string`)
     }
+
+    // At this point, the new profile data is what we want to replace the old with, and has been validated
+    oldProfile[key] = newProfileData[key]
   })
 
-  const existingProfile = profiles[username]
-  const updatedData = Object.assign({}, existingProfile, profileData)
-
-  profiles[username] = updatedData
+  profiles[username] = oldProfile
 
   return { success: true, message: 'Profile updated successfully !' }
 }
