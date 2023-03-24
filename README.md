@@ -54,6 +54,8 @@
   npm install -g nodemon
   ```
 
+### <h2> Running in Testing/Development modes </h2>
+
 Now we can test the frontend and backend separately, or run them in development mode together:
 
 Testing mode:
@@ -64,7 +66,11 @@ Testing mode:
  npm test
  ```
 
-We can generate code coverage reports using IstanbulJS and jest
+We can generate code coverage reports using IstanbulJS and jest:
+```
+npm test -- --coverage
+```
+An HTML version of the code coverage report will be generated at `./coverage/lcov-report/index.html`.
 
 Development mode:
 
