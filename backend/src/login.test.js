@@ -13,12 +13,17 @@ const bad_password = {
 const fake_token = 'obviousfaketoken';
 const other_user = 'rishi';
 
-const { generate_token, validate_token, invalidate_token } = require('./login');
+const { generate_token, validate_token, invalidate_token, create_user } = require('./login');
 
 describe('The login module', () => {
     test('should load', () => {
-        
         expect(generate_token).not.toBe(undefined);
+    });
+    test('forbids illegal characters in usernames', () => {
+        expect(() => create_user('it\'sme!', 'This1SecurePass')).toThrow();
+    });
+    test('forbids usernames to be too short', () => {
+        expect(() => create_user('a', 'This1SecurePass')).toThrow();
     });
     test('allows valid users to log in', () => {
         let token = undefined;

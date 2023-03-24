@@ -26,7 +26,7 @@ afterEach(() => {
 describe('The Express app', () => {
     test('should handle login/logout of valid users with valid passwords', async () => {
         const username = 'richard';
-        const password = 'testpass';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -48,7 +48,7 @@ describe('The Express app', () => {
     });
     test('should allow users to view their profile', async () => {
         const username = 'robert';
-        const password = 'testpass2';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -85,7 +85,7 @@ describe('The Express app', () => {
     });
     test('should allow users to edit their profile', async () => {
         const username = 'riley';
-        const password = 'testpass3';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -139,7 +139,7 @@ describe('The Express app', () => {
     });
     test('should allow users to generate quotes', async () => {
         const username = 'roland';
-        const password = 'testpass2';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -203,7 +203,7 @@ describe('The Express app', () => {
     });
     test('should allow users to submit quotes', async () => {
         const username = 'rachel';
-        const password = 'testpass2';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -272,7 +272,7 @@ describe('The Express app', () => {
     });
     test('should allow users to view quote history', async () => {
         const username = 'raquel';
-        const password = 'testpass2';
+        const password = 'Test!Pass77';
         let reqBody = { username, password };
         await client.post('/api/register', reqBody).then((response) => {
             expect(response.data.msg).toBe('Success');
@@ -353,5 +353,21 @@ describe('The Express app', () => {
         await clientWithAuth(token).post('/api/logout', { username, token })
             .then((response) => {})
             .catch(e => { throw e });
+    });
+    test('should prohibit illegal username or password', async () => {
+        const bad_username = 'a';
+        const good_username = 'abel'
+        const good_password = 'Test!Pass77';
+        const bad_password = 'password';
+        expect(async () => await client.post('/api/register', { bad_username, good_password})
+        .then(_ => { throw Error('Should not succeed'); }).catch(_ => { })).not.toThrow()
+        expect(async () => await client.post('/api/register', { good_username, bad_password})
+        .then(_ => { throw Error('Should not succeed'); }).catch(_ => { })).not.toThrow()
+    });
+    test('should not allow nonexistent user to log in', async () => {
+        const bad_username = 'eve';
+        const password = 'Test!Pass77';
+        expect(async () => await client.post('/api/login', { bad_username, password})
+        .then(_ => { throw Error('Should not succeed'); }).catch(_ => { })).not.toThrow()
     });
 });

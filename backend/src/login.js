@@ -12,6 +12,15 @@ users.set('abraar', 'test2');
 users.set('dosbol', 'test3');
 users.set('rishi', 'test4');
 
+const username_validate = (username) => {
+    // Validate the the username does not include any illegal characters and is the required length
+    return username.match(/^[a-zA-z0-9]{3,}$/)
+};
+
+const password_validate = (password) => {
+    return password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+};
+
 var invalid_sessions = new Map();
 
 // TODO need to add input validation
@@ -62,6 +71,10 @@ const invalidate_token = (username, token) => {
 const create_user = (username, password) => {
     if (users.has(username)) {
         throw Error('User already exists');
+    } else if (!username_validate(username)) {
+        throw Error('Username contains illegal characters or is the wrong length');
+    } else if (!password_validate(password)) {
+        throw Error('Password contains illegal characters or is not the correct length');
     }
     users.set(username, password);
     initializeQuoteHistory(username);
