@@ -82,8 +82,8 @@ gallon: (integer)
 Headers: Authorize with Bearer token
 
 Return: JSON body
-Price: (float)
-Due: (float)
+price: (float)
+due: (float)
 
 HTTP Status Codes:
 200 OK: The quote request was successful
