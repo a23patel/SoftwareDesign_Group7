@@ -39,7 +39,7 @@ app.post('/api/quote', (req, res) => {
     } else {
       // We use submitFuelQuote
       const { username, gallons, date } = req.body
-      const { success, message } = submitFuelQuote(username, gallons, date)
+      const { success, message } = submitFuelQuote(username, Number(gallons), date)
       res.status(200).json({ message })
     }
   })
