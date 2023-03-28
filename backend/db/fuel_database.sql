@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "PROFILE" (
         "city"  TEXT NOT NULL,
         "state" TEXT NOT NULL,
         "zipcode"  TEXT NOT NULL CHECK("zipcode" REGEXP '^[0-9]{5}$'),
-        "phone" TEXT NOT NULL CHECK("phone" REGEXP '[0-9]{10,}'),
+        "phone" TEXT NOT NULL CHECK("phone" REGEXP '^[0-9]{10}$'),
         PRIMARY KEY("client_username"),
         FOREIGN KEY("client_username") REFERENCES "USERS"("username")
 );
