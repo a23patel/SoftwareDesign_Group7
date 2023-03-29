@@ -2,7 +2,7 @@ PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "USERS" (
         "username" TEXT NOT NULL CHECK("username" REGEXP '^[a-zA-Z0-9]{3,}$'),
-        "password" TEXT NOT NULL CHECK("password" REGEXP '^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$'),
+        "password" TEXT NOT NULL,
         PRIMARY KEY("username")
 );
 CREATE TABLE IF NOT EXISTS "PROFILE" (
