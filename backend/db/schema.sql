@@ -1,10 +1,14 @@
+-- Deinitialize everything if it is setup
+drop user if exists 'app';
+drop database if exists cosc4353app;
+commit;
+-- Initialize the database
+create database cosc4353app;
 use cosc4353app;
-drop table profile;
-drop table quote;
-drop table users;
+-- Create our tables
 create table users (
 		username varchar(16) not null check(username regexp '^[a-zA-Z0-9]{3,}$'),
-        password char(44) not null,
+        password char(44) not null check(password regexp '^[a-zA-Z0-9+/=]{44}$'),
         primary key(username)
 );
 CREATE TABLE profile (
@@ -32,4 +36,9 @@ CREATE TABLE quote (
         delivery_zipcode  char(5) NOT NULL CHECK(delivery_zipcode REGEXP '^[0-9]{5}$' ),
         FOREIGN KEY(client_username) REFERENCES users(username)
 );
+commit;
+-- Create a role 'app' and login for the backend to use on the database
+create user 'app' identified by 'test_password';
+-- Granting necessarily data-modification privileges to 'app'
+grant insert, delete, select, update on cosc4353app.* to 'app'@'localhost';
 commit;
