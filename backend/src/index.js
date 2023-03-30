@@ -56,9 +56,9 @@ app.get('/api/history/:username', (req, res) => {
   }
 })
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
-    const token = generate_token(req.body.username, req.body.password)
+    const token = await generate_token(req.body.username, req.body.password)
     res.status(200).json({
       token,
       msg: 'The login was successful',
@@ -83,10 +83,10 @@ app.post('/api/logout', (req, res) => {
   }
 })
 
-app.post('/api/register', (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { username, password } = req.body
-    const success = create_user(username, password)
+    const success = await create_user(username, password)
     createProfile(username)
     res.status(200).json({ msg: 'Success' })
   } catch (e) {
