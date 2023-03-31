@@ -8,13 +8,6 @@ const { knexClient } = require('./knexClient');
 // TODO make this crypto secure!
 const token_secret = 'mysecretkeylol';
 
-// "Hard"-coded storage of username/passwords until we implement database
-var users = new Map();
-users.set('michael', 'test1');
-users.set('abraar', 'test2');
-users.set('dosbol', 'test3');
-users.set('rishi', 'test4');
-
 const username_validate = (username) => {
     // Validate the the username does not include any illegal characters and is the required length
     return username.match(/^[a-zA-z0-9]{3,}$/)
@@ -53,7 +46,19 @@ const useradd = async (username, password) => {
     }).catch((e) => { throw e });
 }
 
-var invalid_sessions = new Map();
+const make_invalid = async (username, token) => {
+    knexClient('sessions').insert({username, token})
+        .catch((e) => {throw e});
+}
+
+const token_is_invalid = async (token) => {
+    const rows = await knexClient.select().where('token', '=', token).from('sessions');
+    if (rows.length > 0) {
+        console.log(`TESTING: token_is_invalid yields ${rows.length} rows`);
+        return true;
+    }
+    return false;
+}
 
 // TODO need to add input validation
 const generate_token = async (username, password) => {
@@ -67,12 +72,11 @@ const generate_token = async (username, password) => {
         throw new Error('Invalid user or password');
     }
     const token = jwt.sign({ username: username}, token_secret, { expiresIn: 1800 });
-    invalid_sessions.delete(token);
     return token;
 };
 
-const validate_token = (username, token) => {
-    if (invalid_sessions.has(token)) {
+const validate_token = async (username, token) => {
+    if (await token_is_invalid(token)) {
         return false;
     }
     else {
@@ -86,21 +90,23 @@ const validate_token = (username, token) => {
     }
 };
 
-const invalidate_token = (username, token) => {
-    if (invalid_sessions.has(token)) {
-        throw Error('Cannot invalidate an invalid token!');
-    }
+const invalidate_token = async (username, token) => {
     try {
         const payload = jwt.verify(token, token_secret, { expiresIn: 1800 });
         if (username !== payload.username) {
+            console.log(`DEBUG: token passed to invalidate_token is for a different user`);
             throw Error('Cannot invalidate an invalid token!');
         }
-        invalid_sessions.set(token, 1);
-    }
-    catch (e) {
+        if (await token_is_invalid(token)) {
+            console.log(`DEBUG: token passed to invalidate_token has already been invalidated`);
+            throw Error('Cannot invalidate an invalid token!');
+        }
+        console.log(`DEBUG: attempting to list token as invalidated...`);
+        await make_invalid(username, token);
+        return true;
+    } catch (e) {
         throw Error('Cannot invalidate an invalid token!');
     }
-    return true;
 };
 
 const create_user = async (username, password) => {
@@ -120,7 +126,6 @@ const create_user = async (username, password) => {
         throw e;
     }
     console.log("Test: got here too")
-    initializeQuoteHistory(username);
     return true;
 }
 
