@@ -1,3 +1,4 @@
+const mysql = require('mysql2');
 const knex = require('knex');
 
 const node_env = process.env.NODE_ENV;
@@ -12,15 +13,15 @@ const mySQLConnection = {
 
 const knexClientConfigs = {
     development: {
-        client: 'mysql',
+        client: 'mysql2',
         connection: mySQLConnection
     },
     production: {
-        client: 'mysql',
+        client: 'mysql2',
         connection: mySQLConnection
     },
     testing: {
-        client: 'mysql',
+        client: 'mysql2',
         connection: mySQLConnection
     }
 }

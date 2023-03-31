@@ -36,9 +36,15 @@ CREATE TABLE quote (
         delivery_zipcode  char(5) NOT NULL CHECK(delivery_zipcode REGEXP '^[0-9]{5}$' ),
         FOREIGN KEY(client_username) REFERENCES users(username)
 );
+create table sessions (
+		username varchar(16) not null,
+        token varchar(512) not null,
+        primary key(username, token),
+        foreign key(username) references users(username)
+);
 commit;
 -- Create a role 'app' and login for the backend to use on the database
-create user 'app' identified by 'test_password';
+create user 'app' identified with mysql_native_password by 'test_password';
 -- Granting necessarily data-modification privileges to 'app'
 grant insert, delete, select, update on cosc4353app.* to 'app'@'localhost';
 commit;
