@@ -6,7 +6,7 @@ commit;
 create database cosc4353app;
 use cosc4353app;
 -- Create our tables
-create table users (
+CREATE TABLE users (
 		username varchar(16) not null check(username regexp '^[a-zA-Z0-9]{3,}$'),
         password char(44) not null check(password regexp '^[a-zA-Z0-9+/=]{44}$'),
         primary key(username)
