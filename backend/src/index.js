@@ -68,14 +68,17 @@ app.post('/api/login', async (req, res) => {
   }
 })
 
-app.post('/api/logout', (req, res) => {
+app.post('/api/logout', async (req, res) => {
   const token = req.headers['authorization'].split(' ')[1]
   const { username } = req.body
-  if (!validate_token(username, token)) {
+  console.log(`LOGOUT: attempt by ${username}, with token ${token}`)
+  const is_valid = await validate_token(username, token);
+  console.log(`LOGOUT: token passed is valid: ${is_valid}`)
+  if (!is_valid) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     try {
-      invalidate_token(username, token)
+      await invalidate_token(username, token)
       res.status(200).json({ msg: 'Success' })
     } catch (e) {
       res.status(400).json({ msg: 'Error: Invalid login' })
