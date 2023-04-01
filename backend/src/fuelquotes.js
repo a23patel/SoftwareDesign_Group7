@@ -1,6 +1,6 @@
 const FuelDelivery = require('./pricing')
 const { getProfile } = require('./profile')
-const knex = require('./knex')
+const { knexClient } = require('./knexClient')
 
 const generateFuelQuote = async (username, gallons) => {
   // validate username
@@ -12,7 +12,7 @@ const generateFuelQuote = async (username, gallons) => {
     throw new Error('Unable to generate fuel quote: Invalid Username')
   }
 
-  const profile = await knex('profiles').where('username', username).first()
+  const profile = await knex('profiles').select().where('client_username', '=', username).first()
   
   if (!profile) {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
@@ -77,29 +77,11 @@ const getQuoteHistory = async (username) => {
   return quotes
 }
 
-const initializeQuoteHistory = async (username) => {
-  // validate username
-  if (!username || typeof username !== 'string') {
-    throw new Error('Unable to initialize quote history: username is invalid')
-  }
-  
-  const quoteExists = await knex('quotes').where('username', username).first()
-
-  if (quoteExists) {
-    throw new Error('Unable to initialize quote history: user already exists')
-  }
-
-  // insert a placeholder quote for the user into the quotes table
-  await knex('quotes').insert({ username })
-
-  return true
-}
 
 module.exports = {
   generateFuelQuote,
   submitFuelQuote,
   getQuoteHistory,
-  initializeQuoteHistory
 }
 
 

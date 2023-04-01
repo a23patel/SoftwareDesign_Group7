@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { knexClient } = require('./knexClient');
 
 const app = require('./index')
 const PORT = 3001
@@ -7,6 +8,14 @@ const BACKEND_URL = `http://localhost:${PORT}`
 let server = undefined
 let client = undefined
 let clientWithAuth = undefined
+
+const db_cleanup = () => knexClient.transaction(async trx => {
+  console.log('DEBUG: performing DB cleanup');
+  await trx('sessions').del();
+  await trx('profile').del();
+  await trx('quote').del();
+  await trx('users').del();
+});
 
 beforeEach(() => {
   server = app.listen(PORT, () => {
@@ -18,10 +27,12 @@ beforeEach(() => {
       baseURL: BACKEND_URL,
       headers: { Authorization: `Bearer ${token}` },
     })
+  return db_cleanup();
 })
 
 afterEach(() => {
   server.close()
+  return db_cleanup();
 })
 
 describe('The Express app', () => {
@@ -84,7 +95,7 @@ describe('The Express app', () => {
       .get('/api/profile/' + username)
       .then((response) => {
         const {
-          fullname,
+          full_name,
           email,
           address1,
           address2,
@@ -93,14 +104,14 @@ describe('The Express app', () => {
           zipcode,
           phone,
         } = response.data
-        expect(fullname).toBe('')
-        expect(email).toBe('')
-        expect(address1).toBe('')
+        expect(full_name).toBe('johnny nguyen')
+        expect(email).toBe('johnny123@gmail.com')
+        expect(address1).toBe('4320 Beechnut St')
         expect(address2).toBe('')
-        expect(city).toBe('')
-        expect(state).toBe('')
-        expect(zipcode).toBe('')
-        expect(phone).toBe('')
+        expect(city).toBe('Houston')
+        expect(state).toBe('TX')
+        expect(zipcode).toBe('77092')
+        expect(phone).toBe('2814563224')
       })
       .catch((e) => {
         console.log(`Error: failure in fetching profile`)

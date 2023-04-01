@@ -90,34 +90,40 @@ app.post('/api/register', async (req, res) => {
   try {
     const { username, password } = req.body
     const success = await create_user(username, password)
-    createProfile(username)
+    updateProfile(username, {})
     res.status(200).json({ msg: 'Success' })
   } catch (e) {
     res.status(400).json({ msg: e })
   }
 })
 
-app.get('/api/profile/:username', (req, res) => {
+app.get('/api/profile/:username', async (req, res) => {
   const { username } = req.params
   const token = req.headers['authorization'].split(' ')[1]
   if (!validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use getProfile to get the profile
-    const profile = getProfile(username)
-    res.status(200).json(profile)
+    try {
+      const profile = await getProfile(username)
+      // TODO change this
+      profile['fullname'] = profile['full_name']
+      res.status(200).json(profile)
+    } catch (e) {
+      res.status(400).json({ msg: e.message})
+    }
   }
 })
 
-app.post('/api/profile/edit', (req, res) => {
+app.post('/api/profile/edit', async (req, res) => {
   const token = req.headers['authorization'].split(' ')[1]
   if (!validate_token(req.body.username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use updateProfile to edit the profile
     const { fullname, email, address1, address2, city, state, zipcode, phone } = req.body
-    const newProfile = { fullname, email, address1, address2, city, state, zipcode, phone }
-    const updatedProfile = updateProfile(req.body.username, newProfile)
+    const newProfile = { full_name: fullname, email, address1, address2, city, state, zipcode, phone }
+    const updatedProfile = await updateProfile(req.body.username, newProfile)
     res.status(200).json(updatedProfile)
   }
 })

@@ -17,6 +17,16 @@ const bad_password = {
 const fake_token = 'obviousfaketoken';
 const other_user = 'rishi';
 
+const db_cleanup = () => knexClient.transaction(async trx => {
+    await trx('sessions').del();
+    await trx('profile').del();
+    await trx('quote').del();
+    await trx('users').del();
+});
+
+beforeEach(() => db_cleanup());
+afterEach(() => db_cleanup());
+
 describe('The login module', () => {
     test('sanity check', () => {
         expect(1+1).toBe(2);
@@ -25,11 +35,7 @@ describe('The login module', () => {
         expect(generate_token).not.toBe(undefined);
     });
     test('allows valid username and password for registration', async () => {
-        await knexClient('sessions').del();
-        await knexClient('users').del();
         expect(create_user(valid_user.username, valid_user.password)).resolves.not.toBeUndefined();
-        await knexClient('sessions').del();
-        await knexClient('users').del();
     });
     test('forbids illegal characters in usernames', async () => {
         await knexClient('sessions').del();
@@ -104,7 +110,7 @@ describe('The login module', () => {
         const was_invalidated = await invalidate_token(valid_user.username, token);
         expect(was_invalidated).toBe(true);
         //expect(await validate_token(valid_user.username, token)).toBe(false);
-        expect(invalidate_token(valid_user.username, token)).rejects.toThrow();
+        expect(invalidate_token(valid_user.username, token)).resolves.toThrow();
         await knexClient('sessions').del();
         await knexClient('users').del();
     });

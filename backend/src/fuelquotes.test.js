@@ -4,6 +4,25 @@ const {
   getQuoteHistory,
 } = require('./fuelquotes')
 
+const db_setup = () => knexClient.transaction(async trx => {
+  await trx('sessions').del();
+  await trx('profile').del();
+  await trx('quote').del();
+  await trx('users').del();
+  await trx('users').insert({ username: 'peter', password: '3J9YmiYMzPzLfr3h96c4O/vKGjZuDwhpJo05wSJOZls='});
+});
+
+const db_cleanup = () => knexClient.transaction(async trx => {
+  await trx('sessions').del();
+  await trx('profile').del();
+  await trx('quote').del();
+  await trx('users').del();
+});
+
+beforeEach(() => db_setup());
+afterEach(() => db_cleanup());
+afterAll(() => db_cleanup());
+
 // Mocking profile data
 const profile = {
   address1: '123 Hornwood Dr',
