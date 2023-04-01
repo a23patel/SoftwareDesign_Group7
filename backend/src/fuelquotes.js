@@ -12,6 +12,7 @@ const generateFuelQuote = async (username, gallons) => {
     throw new Error('Unable to generate fuel quote: Invalid Username')
   }
 
+  // replace this with some invocation of getProfile?
   const profile = await knex('profiles').select().where('client_username', '=', username).first()
   
   if (!profile) {
@@ -64,12 +65,16 @@ const submitFuelQuote = async (username, gallons, date) => {
   quote.date = date
 
   // insert quote into the quotes table
+  // this should be about right?
   await knex('quotes').insert({ username, ...quote })
 
   return { success: true, message: 'Fuel quote submitted successfully!' }
 }
 
 const getQuoteHistory = async (username) => {
+  // this should be doing input validation
+  // also the table column name is client_username
+  // and it probably should be able to display quote history if there are no quotes for the user
   const quotes = await knex('quotes').where('username', username)
   if (quotes.length === 0) {
     throw new Error('Unable to get quote history: No quotes found for this user')
