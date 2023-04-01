@@ -20,9 +20,9 @@ afterAll(() => db_cleanup());
 
 describe('The Profile Management Module', () => {
   test('should load', async () => {
-    await expect(generateProfile).not.toBe(undefined)
-    await expect(getProfile).not.toBe(undefined)
-    await expect(updateProfile).not.toBe(undefined)
+    expect(generateProfile).not.toBe(undefined)
+    expect(getProfile).not.toBe(undefined)
+    expect(updateProfile).not.toBe(undefined)
   })
 
   test('should create a profile with a valid username', async () => {
