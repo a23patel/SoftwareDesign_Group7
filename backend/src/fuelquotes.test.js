@@ -1,3 +1,5 @@
+const { knexClient } = require('./knexClient');
+
 const {
   generateFuelQuote,
   submitFuelQuote,
@@ -11,7 +13,7 @@ const db_setup = () =>
     await trx('quote').del()
     await trx('users').del()
     await trx('users').insert({
-      username: 'peter',
+      username: 'dosbol',
       password: '3J9YmiYMzPzLfr3h96c4O/vKGjZuDwhpJo05wSJOZls=',
     })
   })
@@ -39,7 +41,7 @@ const profile = {
 
 // Mocking generateProfile function
 jest.mock('./profile', () => ({
-  getProfile: jest.fn(() => profile),
+  getProfile: jest.fn(async () => profile),
 }))
 
 describe('The Fuel Quote Module', () => {
@@ -48,12 +50,12 @@ describe('The Fuel Quote Module', () => {
     expect(getQuoteHistory).not.toBe(undefined)
   })
 
-  test('throws an error if profile does not exist', async () => {
-    expect(() => generateFuelQuote(null, 280)).rejects.toThrow()
+  test('throws an error if profile does not exist', () => {
+    expect(generateFuelQuote(null, 280)).rejects.toThrow()
   })
 
-  test('throws an error if username is invalid', async () => {
-    expect(() => generateFuelQuote(235, 125)).rejects.toThrow()
+  test('throws an error if username is invalid', () => {
+    expect(generateFuelQuote(235, 125)).rejects.toThrow()
   })
 
   test('should generate a fuel quote for a user with complete profile and valid gallons requested', async () => {
@@ -93,6 +95,7 @@ describe('The Fuel Quote Module', () => {
   })
 
   test('should add the new quote to the quote history', async () => {
+    await submitFuelQuote('dosbol', 150, '2023-03-31')
     const result = await getQuoteHistory('dosbol')
 
     expect(result.length).toBe(1)
@@ -111,7 +114,6 @@ describe('The Fuel Quote Module', () => {
   })
 
   test('should throw an error if no fuel quotes are found for a user', async () => {
-    const history = await getQuoteHistory('rishi')
-    expect(history).rejects.toThrow()
+    expect(getQuoteHistory('rishi')).rejects.toThrow()
   })
 })

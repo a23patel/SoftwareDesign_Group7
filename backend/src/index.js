@@ -4,7 +4,7 @@ const {
     generateFuelQuote,
     submitFuelQuote,
     getQuoteHistory, } = require('./fuelquotes')
-const { createProfile, getProfile, updateProfile } = require('./profile')
+const { getProfile, updateProfile } = require('./profile')
 const {
   generate_token,
   validate_token,
@@ -20,39 +20,55 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }))
 
-app.get('/api/quote/:username/:gallons', (req, res) => {
+app.get('/api/quote/:username/:gallons', async (req, res) => {
     const { username, gallons } = req.params
     const token = req.headers['authorization'].split(' ')[1]
     if (!validate_token(username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
       // we would use getQuoteHistory to get the quote history
-      const { price, due } = generateFuelQuote(username, Number(gallons))
-      res.status(200).json({ price, due })
+      try {
+        // TODO we need to decide if we're going to change the names on the database or in the backend
+        //const { price, due } = await generateFuelQuote(username, Number(gallons))
+        //res.status(200).json({ price, due })
+        const { suggested_price, amount_due } = await generateFuelQuote(username, Number(gallons))
+        res.status(200).json({ price: suggested_price, due: amount_due })
+      } catch (e) {
+        res.status(400).json({ msg: 'Error: Could not get quote' })
+      }
     }
 })
 
-app.post('/api/quote', (req, res) => {
+app.post('/api/quote', async (req, res) => {
     const token = req.headers['authorization'].split(' ')[1]
     if (!validate_token(req.body.username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
       // We use submitFuelQuote
-      const { username, gallons, date } = req.body
-      const { success, message } = submitFuelQuote(username, Number(gallons), date)
-      res.status(200).json({ message })
+      try {
+        const { username, gallons, date } = req.body
+        const { message } = await submitFuelQuote(username, Number(gallons), date)
+        res.status(200).json({ message })
+      } catch (e) {
+        res.status(400).json({ msg: `Error: Could not save quote: ${e}` })
+      }
+
     }
   })
 
-app.get('/api/history/:username', (req, res) => {
+app.get('/api/history/:username', async (req, res) => {
   const { username} = req.params
   const token = req.headers['authorization'].split(' ')[1]
   if (!validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use getQuoteHistory to get the quote history
-    const historyQuotes = getQuoteHistory(username)
-    res.status(200).json({ message: 'Success', quotes: historyQuotes })
+    try {
+      const historyQuotes = await getQuoteHistory(username)
+      res.status(200).json({ message: 'Success', quotes: historyQuotes })
+    } catch (e) {
+      res.status(400).json({ msg: 'Error: Could not fetch quotes' })
+    }
   }
 })
 
@@ -89,8 +105,8 @@ app.post('/api/logout', async (req, res) => {
 app.post('/api/register', async (req, res) => {
   try {
     const { username, password } = req.body
-    const success = await create_user(username, password)
-    updateProfile(username, {})
+    let success = await create_user(username, password)
+    success = await updateProfile(username, {})
     res.status(200).json({ msg: 'Success' })
   } catch (e) {
     res.status(400).json({ msg: e })

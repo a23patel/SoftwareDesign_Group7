@@ -67,10 +67,11 @@ const submitFuelQuote = async (username, gallons, date) => {
   }
 
   const quote = await generateFuelQuote(username, gallons);
-  quote.date = date;
+  // TODO another mismatched field name...
+  quote.delivery_date = date;
 
   // insert quote object into the quotes table
-  await knexClient("quotes").insert({ client_username: username, ...quote });
+  await knexClient("quote").insert({ client_username: username, ...quote });
 
   return { success: true, message: "Fuel quote submitted successfully!" };
 };

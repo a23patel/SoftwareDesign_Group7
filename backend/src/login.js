@@ -52,8 +52,9 @@ const make_invalid = async (username, token) => {
 }
 
 const token_is_invalid = async (token) => {
-    const rows = await knexClient.select().where('token', '=', token).from('sessions');
-    if (rows.length > 0) {
+    const rows = await knexClient('sessions').select().where('token', '=', token)
+    console.log(`DEBUG: we found ${rows.length} duplicate rows`)
+    if (rows.length !== 0) {
         console.log(`TESTING: token_is_invalid yields ${rows.length} rows`);
         return true;
     }
