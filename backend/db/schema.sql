@@ -26,14 +26,14 @@ CREATE TABLE profile (
 );
 CREATE TABLE quote (
         client_username varchar(16) NOT NULL,
-        delivery_date date NOT NULL,
-        gallons_requested integer NOT NULL CHECK(gallons_requested > 0),
-        suggested_price  decimal(10,2) NOT NULL,
-        amount_due decimal(10,2) NOT NULL,
-        delivery_address varchar(160) NOT NULL,
-        delivery_city varchar(50) NOT NULL,
-        delivery_state  char(2) NOT NULL,
-        delivery_zipcode  char(5) NOT NULL CHECK(delivery_zipcode REGEXP '^[0-9]{5}$' ),
+        date date NOT NULL,
+        gallons integer NOT NULL CHECK(gallons > 0),
+        price  decimal(10,2) NOT NULL,
+        due decimal(10,2) NOT NULL,
+        address varchar(160) NOT NULL,
+        city varchar(50) NOT NULL,
+        state  char(2) NOT NULL,
+        zipcode  char(5) NOT NULL CHECK(zipcode REGEXP '^[0-9]{5}$' ),
         FOREIGN KEY(client_username) REFERENCES users(username)
 );
 create table sessions (
