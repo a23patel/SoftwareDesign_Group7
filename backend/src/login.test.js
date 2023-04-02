@@ -26,6 +26,7 @@ const db_cleanup = () => knexClient.transaction(async trx => {
 
 beforeEach(() => db_cleanup());
 afterEach(() => db_cleanup());
+afterAll(() => knexClient.destroy());
 
 describe('The login module', () => {
     test('sanity check', () => {

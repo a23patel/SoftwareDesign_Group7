@@ -1,5 +1,6 @@
 const FuelDelivery = require("./pricing");
 const { knexClient } = require("./knexClient");
+const { getProfile } = require("./profile");
 
 const generateFuelQuote = async (username, gallons) => {
   // validate username
@@ -11,11 +12,12 @@ const generateFuelQuote = async (username, gallons) => {
     throw new Error("Unable to generate fuel quote: Invalid Username");
   }
 
-  const profile = await knexClient("profile")
-    .select()
-    .where("client_username", "=", username)
-    .first();
-
+  // const profile = await knexClient("profile")
+  //   .select()
+  //   .where("client_username", "=", username)
+  //   .first();
+  const profile = await getProfile(username)
+  console.log(profile)
   if (!profile) {
     throw new Error("Unable to generate fuel quote: Profile does not exist");
   }
@@ -44,13 +46,13 @@ const generateFuelQuote = async (username, gallons) => {
   );
 
   const newQuote = {
-    gallons_requested: gallons,
-    delivery_address: address,
-    delivery_city: city,
-    delivery_state: state,
-    delivery_zipcode: zipcode,
-    suggested_price: price,
-    amount_due: fuelDelivery.getTotalAmountDue(),
+    gallons: Number(gallons),
+    address,
+    city,
+    state,
+    zipcode,
+    price: Number(price),
+    due: Number(fuelDelivery.getTotalAmountDue()),
   };
 
   return newQuote;
@@ -68,7 +70,7 @@ const submitFuelQuote = async (username, gallons, date) => {
 
   const quote = await generateFuelQuote(username, gallons);
   // TODO another mismatched field name...
-  quote.delivery_date = date;
+  quote.date = date;
 
   // insert quote object into the quotes table
   await knexClient("quote").insert({ client_username: username, ...quote });
@@ -77,25 +79,29 @@ const submitFuelQuote = async (username, gallons, date) => {
 };
 
 const getQuoteHistory = async (username) => {
-  const quotes = await knexClient("quotes")
+  const quotes = await knexClient("quote")
     .select(
-      "gallons_requested",
-      "delivery_address",
-      "delivery_city",
-      "delivery_state",
-      "delivery_zipcode",
-      "suggested_price",
-      "amount_due",
+      "gallons",
+      "address",
+      "city",
+      "state",
+      "zipcode",
+      "price",
+      "due",
       "date"
     )
     .where("client_username", "=", username);
 
-  if (quotes.length === 0) {
-    throw new Error(
-      "Unable to get quote history: No quotes found for this user"
-    );
-  }
-
+  // if (quotes.length === 0) {
+  //   throw new Error(
+  //     "Unable to get quote history: No quotes found for this user"
+  //   );
+  // }
+  quotes.forEach((quote) => {
+    quote.date = new Date(quote.date).toISOString().split('T')[0]
+    quote.due = Number(quote.due)
+    quote.price = Number(quote.price)
+  });
   return quotes;
 };
 

@@ -31,8 +31,8 @@ app.get('/api/quote/:username/:gallons', async (req, res) => {
         // TODO we need to decide if we're going to change the names on the database or in the backend
         //const { price, due } = await generateFuelQuote(username, Number(gallons))
         //res.status(200).json({ price, due })
-        const { suggested_price, amount_due } = await generateFuelQuote(username, Number(gallons))
-        res.status(200).json({ price: suggested_price, due: amount_due })
+        const { price, due } = await generateFuelQuote(username, Number(gallons))
+        res.status(200).json({ price, due })
       } catch (e) {
         res.status(400).json({ msg: 'Error: Could not get quote' })
       }

@@ -386,10 +386,10 @@ describe('The Express app', () => {
         expect(date).toBe(quoteBody.date)
         expect(price).toBe(quoteBody.price)
         expect(due).toBe(quoteBody.due)
-        expect(address).toBe(profile.address1 + profile.address2)
-        expect(city).toBe(profile.city)
-        expect(state).toBe(profile.state)
-        expect(zipcode).toBe(profile.zipcode)
+        expect(address).toBe(profileBody.address1 + profileBody.address2)
+        expect(city).toBe(profileBody.city)
+        expect(state).toBe(profileBody.state)
+        expect(zipcode).toBe(profileBody.zipcode)
       })
       .catch((e) => {
         throw e
