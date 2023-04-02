@@ -40,7 +40,33 @@
   
  2) Install <a href="https://git-scm.com/">Git</a>, <a href="https://code.visualstudio.com/download">Visual Studio Code</a>, <a href="https://nodejs.org">NodeJS</a></li>
 
- 3) Install the NPM package dependencies for the frontend and backend:
+ 3) Install <a href="">MySQL</a> to your liking, and execute the script `backend/db/schema.sql` to initialize the database using the MySQL Workbench or command line tools as below:
+
+  In Windows, <a href="https://dev.mysql.com/downloads/installer/">install MySQL using the installer </a> and setup a password for the root user, and then perform the following on the machine hosting the database:
+  ```
+  cd backend\db
+  mysql -h <HOSTNAME> -u root -p <PASSWORD> < schema.sql
+  ```
+  Here HOSTNAME represents the machine hostname that the MySQL server is running on.
+
+  In macOS or Linux, install from your favorite package manager or using the <a href="https://dev.mysql.com/downloads/mysql/">community installer for your appropriate macOS</a> and then perform the following on the machine hosting the database:
+  ```
+  cd backend/db
+  mysql -h <HOSTNAME> -u root -p <PASSWORD> < schema.sql
+  ```
+
+4) Configure the backend to connect to your database by modifying the `backend/.env` file:
+
+  ```
+  MYSQL_HOST=127.0.0.1
+  MYSQL_PORT=3306
+  MYSQL_USER=app
+  MYSQL_PASSWORD=test_password
+  MYSQL_DB=cosc4353app
+  ```
+  By default, the script will install to the database `cosc4353app` and create a user `app` with `test_password`. Replace `MYSQL_HOST` and `MYSQL_PORT` appropriately for your MySQL install
+
+ 5) Install the NPM package dependencies for the frontend and backend:
  ```
  cd frontend
  npm i
@@ -48,7 +74,7 @@
  npm i
  ```
  
- 4) Installation of nodemon: required for running the backend Node.js daemon
+ 6) Installation of nodemon: required for running the backend Node.js daemon
  
   ```
   npm install -g nodemon
@@ -56,7 +82,8 @@
 
 ### <h2> Running in Testing/Development modes </h2>
 
-Now we can test the frontend and backend separately, or run them in development mode together:
+Now we can test the frontend and backend separately, or run them in development mode together.
+Make sure that the MySQL database is running and accepting connections before starting the backend in development or production.
 
 Testing mode:
 
@@ -74,12 +101,12 @@ An HTML version of the code coverage report will be generated at `./coverage/lco
 
 Development mode:
 
- 1) Start backend, it will automatically begin listening on `localhost:3001`:
+ 2) Start backend, it will automatically begin listening on `localhost:3001`:
  ```
  cd backend
  npm start
  ```
- 2) In a separate terminal, start frontend, it will automatically begin listening on `localhost:3000` and open a browser tab:
+ 3) In a separate terminal, start frontend, it will automatically begin listening on `localhost:3000` and open a browser tab:
  ```
  cd frontend
  npm start
