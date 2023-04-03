@@ -18,7 +18,7 @@ const password_validate = (password) => {
 };
 
 const is_valid = async (username, password) => {
-    return knexClient.select('password').where('username', '=', username).from('USERS')
+    return knexClient.select('password').where('username', '=', username).from('users')
         .then((rows) => {
             if (rows.length !== 1) {
                 console.log(`Our returned rows are ${rows}`)
@@ -36,7 +36,7 @@ const is_valid = async (username, password) => {
 }
 
 const username_exists = async (username) => {
-    return knexClient.select('username').where('username', '=', username).from('USERS')
+    return knexClient.select('username').where('username', '=', username).from('users')
         .then((rows) => { return rows.length > 0 });
 }
 
