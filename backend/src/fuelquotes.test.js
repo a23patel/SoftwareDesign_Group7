@@ -1,11 +1,10 @@
-const { knexClient } = require('./knexClient');
+const { knexClient } = require('./knexClient')
 
 const {
   generateFuelQuote,
   submitFuelQuote,
   getQuoteHistory,
-} = require('./fuelquotes');
-const { getProfile } = require('./profile');
+} = require('./fuelquotes')
 
 const db_setup = () =>
   knexClient.transaction(async (trx) => {
@@ -37,7 +36,7 @@ const profile = {
   address2: '',
   city: 'Houston',
   state: 'TX',
-  zipcode: '77097'
+  zipcode: '77097',
 }
 
 // Mocking generateProfile function

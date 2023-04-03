@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --maxWorkers=1",
     "start": "NODE_ENV=development nodemon src/server.js",
     "init_db": "rm db/fuel_database.db; sqlite3 db/fuel_database.db < db/fuel_database.sql"
   },
