@@ -44,7 +44,7 @@ create table sessions (
 );
 commit;
 -- Create a role 'app' and login for the backend to use on the database
-create user 'app' identified with mysql_native_password by 'test_password';
+create user 'app' identified by 'test_password';
 -- Granting necessarily data-modification privileges to 'app'
 grant insert, delete, select, update on cosc4353app.* to 'app';
 commit;
