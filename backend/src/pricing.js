@@ -1,7 +1,7 @@
 const { getQuoteHistory } = require('./fuelquotes')
 
 class FuelDelivery {
-  constructor(gallons, address, city, state, zipcode, price, username) {
+  constructor(gallons, address, city, state, zipcode, username) {
     this.gallons = gallons
     this.address = address
     this.city = city
