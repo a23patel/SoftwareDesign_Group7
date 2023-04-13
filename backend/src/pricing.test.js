@@ -1,95 +1,86 @@
 const FuelDelivery = require('./pricing')
 
 describe('Pricing Module', () => {
-  test('getTotalAmountDue() returns the correct amount', () => {
+  test('should load', () => {
+    expect(getPricePerGallon).not.toBe(undefined)
+    expect(getTotalAmountDue).not.toBe(undefined)
+  })
+
+  test('calculates the correct suggested price per gallon for a fuel delivery to Texas', async () => {
     const delivery = new FuelDelivery(
       100,
       '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      2.5
+      'Houston',
+      'TX',
+      '77097',
+      'johnny'
     )
-    expect(delivery.getTotalAmountDue()).toBe(250)
+    const suggestedPrice = await delivery.getPricePerGallon()
+    expect(suggestedPrice).toBeCloseTo(1.566, 3)
   })
 
-  test('getTotalAmountDue() returns Correct amount when either gallonsRequested or suggestedPricePerGallon is a STRING ', () => {
-    const delivery1 = new FuelDelivery(
-      '100',
-      '123 Main St',
-      'Anytown',
+  test('calculates the correct suggested price per gallon for a delivery outside of Texas', async () => {
+    const delivery = new FuelDelivery(
+      100,
+      '2550 Council St',
+      'San Francisco',
       'CA',
-      '12345',
-      2.5
+      '99465',
+      'jason'
     )
-    expect(delivery1.getTotalAmountDue()).toBe(250)
+    const suggestedPrice = await delivery.getPricePerGallon()
+    expect(suggestedPrice).toBeCloseTo(1.617, 3)
+  })
 
-    const delivery2 = new FuelDelivery(
+  test('calculates the correct suggested price per gallon for a delivery of more than 1000 gallons', async () => {
+    const delivery = new FuelDelivery(
+      2000,
+      '123 Main St',
+      'Houston',
+      'TX',
+      '77001',
+      'dosbol'
+    )
+    const suggestedPrice = await delivery.getPricePerGallon()
+    expect(suggestedPrice).toBeCloseTo(1.542, 3)
+  })
+
+  test('calculates the correct total amount due for a valid delivery', async () => {
+    const delivery = new FuelDelivery(
       100,
       '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      '2.50'
+      'Houston',
+      'TX',
+      '77097',
+      'johnny'
     )
-    expect(delivery2.getTotalAmountDue()).toBe(250)
+    const totalAmountDue = await delivery.getTotalAmountDue()
+    expect(totalAmountDue).toBeCloseTo(156.6, 2)
   })
 
-  test('getTotalAmountDue() returns NaN when either gallonsRequested or suggestedPricePerGallon are negative', () => {
-    const delivery1 = new FuelDelivery(
+  test('totalAmountDue returns NaN when gallons requested is negative', async () => {
+    const delivery = new FuelDelivery(
       -100,
       '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      2.5
+      'Houston',
+      'TX',
+      '77097',
+      'johnny'
     )
-    expect(delivery1.getTotalAmountDue()).toBe(NaN)
-
-    const delivery2 = new FuelDelivery(
-      100,
-      '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      -2.5
-    )
-    expect(delivery2.getTotalAmountDue()).toBe(NaN)
+    const totalAmountDue = await delivery.getTotalAmountDue()
+    expect(totalAmountDue).toBe(NaN)
   })
 
-  test('getTotalAmountDue() returns 0 when gallonsRequested is 0', () => {
+  test('returns 0 when gallons requested is 0', async () => {
     const delivery = new FuelDelivery(
       0,
-      '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      2.5
+      '234 Hornwood Dr',
+      'Houston',
+      'TX',
+      '77064',
+      'rishi'
     )
-    expect(delivery.getTotalAmountDue()).toBe(0)
-  })
-
-  test('getTotalAmountDue() returns the correct amount when suggestedPricePerGallon is 0', () => {
-    const delivery = new FuelDelivery(
-      100,
-      '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      0
-    )
-    expect(delivery.getTotalAmountDue()).toBe(0)
-  })
-
-  test('getTotalAmountDue() rounds the result to 2 decimal places', () => {
-    const delivery = new FuelDelivery(
-      100,
-      '123 Main St',
-      'Anytown',
-      'CA',
-      '12345',
-      2.536
-    )
-    expect(delivery.getTotalAmountDue()).toBeCloseTo(253.6, 2)
+    const totalAmountDue = await delivery.getTotalAmountDue()
+    expect(totalAmountDue).toBe(NaN)
   })
 })

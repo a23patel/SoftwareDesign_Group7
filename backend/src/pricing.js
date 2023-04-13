@@ -1,18 +1,42 @@
+const { getQuoteHistory } = require('./fuelquotes')
+
 class FuelDelivery {
-  constructor(gallons, address, city, state, zipcode, price) {
+  constructor(gallons, address, city, state, zipcode, price, username) {
     this.gallons = gallons
     this.address = address
     this.city = city
     this.state = state
     this.zipcode = zipcode
-    this.price = price
+    this.username = username
   }
 
-  getTotalAmountDue() {
-    if (this.gallons < 0 || this.price < 0) {
+  async getPricePerGallon() {
+    const locationFactor = this.state === 'TX' ? 0.02 : 0.04
+    const gallonsRequestedFactor = this.gallons > 1000 ? 0.02 : 0.03
+    const companyProfitFactor = 0.1
+
+    const quoteHistory = await getQuoteHistory(this.username)
+    const rateHistoryFactor = quoteHistory.length > 0 ? 0.01 : 0
+
+    const currentPrice = 1.5
+    const margin =
+      currentPrice *
+      (locationFactor -
+        rateHistoryFactor +
+        gallonsRequestedFactor +
+        companyProfitFactor)
+
+    const suggestedPrice = currentPrice + margin
+
+    return suggestedPrice
+  }
+
+  async getTotalAmountDue() {
+    const suggestedPricePerGallon = await this.getPricePerGallon()
+    if (this.gallons <= 0) {
       return NaN
     }
-    return this.gallons * this.price
+    return this.gallons * suggestedPricePerGallon
   }
 }
 
