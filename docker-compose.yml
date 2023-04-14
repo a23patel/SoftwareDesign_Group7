@@ -29,14 +29,18 @@ services:
       - "3001:3001"
 
   frontend:
+    container_name: cosc4353group7_frontend
     image: cosc4353group7/fuelgo-frontend
     build: 
       context: frontend
       dockerfile: react.Dockerfile
     networks:
       - frontend
+    environment:
+      BACKEND_URL: 'backend'
+      BACKEND_PORT: 3001
     ports:
-      - "3000:3000"
+      - "3000:80"
 
 networks:
   frontend:

@@ -10,7 +10,7 @@ COPY package*json ./
 RUN npm ci
 
 COPY src/ src/
-COPY .env .env
+COPY .env.production .env
 
 ENV NODE_ENV production
 EXPOSE 8080

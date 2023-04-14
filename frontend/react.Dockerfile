@@ -1,31 +1,27 @@
-FROM node:latest
+FROM node:latest as build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*json ./
 
-RUN npm install
+RUN npm ci
+RUN npm install react-scripts@3.4.1 -g --silent
 
-#COPY src/ src/
 COPY . ./
+COPY ./src/config.production.js ./src/config.js
+
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build /app/build /usr/share/nginx/html/
 
 ENV NODE_ENV production
-EXPOSE 3000
-CMD [ "npm", "start"]
+ENV BACKEND_URL http://backend
+ENV BACKEND_PORT 3001
 
+EXPOSE 80
 
-# Theoretical multi-stage build version...React Router doesn't like it
-# FROM node:latest as BUILD
-# WORKDIR /build
-
-# COPY package.json package.json
-# COPY package-lock.json package-lock.json
-# RUN npm ci
-
-# COPY public/ public
-# COPY src/ src
-# RUN npm run build
-
-# FROM httpd:alpine
-# WORKDIR /var/www/html
-# COPY --from=BUILD /build/build/ .
+CMD ["nginx", "-g", "daemon off;"]

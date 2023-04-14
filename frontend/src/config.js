@@ -10,15 +10,8 @@ const development = {
     start_mock: false
 }
 
-const production = {
-    baseURL: process.env.REACT_APP_BASE_URL,
-    start_mock: false
-}
-
 const config = () => {
-    if (node_env.match(/prod/)) {
-        return production
-    } else if (node_env.match(/test/)) {
+    if (node_env.match(/test/)) {
         return test
     } else {
         return development
