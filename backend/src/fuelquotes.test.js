@@ -69,7 +69,7 @@ describe('The Fuel Quote Module', () => {
         state: 'TX',
         zipcode: '77097',
         price: 1.5,
-        due: 225,
+        due: 258.75,
       })
     )
   })
@@ -105,7 +105,7 @@ describe('The Fuel Quote Module', () => {
         state: 'TX',
         zipcode: '77097',
         price: 1.5,
-        due: 225,
+        due: 258.75,
       })
     )
   })

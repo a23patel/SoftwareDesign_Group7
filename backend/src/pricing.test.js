@@ -1,9 +1,20 @@
 const FuelDelivery = require('./pricing')
+const { knexClient } = require('./knexClient')
+
+const db_setup = () =>
+  knexClient.transaction(async (trx) => {
+    await trx('sessions').del()
+    await trx('profile').del()
+    await trx('quote').del()
+    await trx('users').del()
+  })
+
+beforeAll(() => db_setup())
+afterAll(() => knexClient.destroy())
 
 describe('Pricing Module', () => {
   test('should load', () => {
-    expect(getPricePerGallon).not.toBe(undefined)
-    expect(getTotalAmountDue).not.toBe(undefined)
+    expect(FuelDelivery).not.toBeUndefined()
   })
 
   test('calculates the correct suggested price per gallon for a fuel delivery to Texas', async () => {
@@ -16,7 +27,7 @@ describe('Pricing Module', () => {
       'johnny'
     )
     const suggestedPrice = await delivery.getPricePerGallon()
-    expect(suggestedPrice).toBeCloseTo(1.566, 3)
+    expect(suggestedPrice).toBeCloseTo(1.725, 3)
   })
 
   test('calculates the correct suggested price per gallon for a delivery outside of Texas', async () => {
@@ -29,7 +40,7 @@ describe('Pricing Module', () => {
       'jason'
     )
     const suggestedPrice = await delivery.getPricePerGallon()
-    expect(suggestedPrice).toBeCloseTo(1.617, 3)
+    expect(suggestedPrice).toBeCloseTo(1.755, 3)
   })
 
   test('calculates the correct suggested price per gallon for a delivery of more than 1000 gallons', async () => {
@@ -42,7 +53,7 @@ describe('Pricing Module', () => {
       'dosbol'
     )
     const suggestedPrice = await delivery.getPricePerGallon()
-    expect(suggestedPrice).toBeCloseTo(1.542, 3)
+    expect(suggestedPrice).toBeCloseTo(1.71, 3)
   })
 
   test('calculates the correct total amount due for a valid delivery', async () => {
@@ -55,7 +66,7 @@ describe('Pricing Module', () => {
       'johnny'
     )
     const totalAmountDue = await delivery.getTotalAmountDue()
-    expect(totalAmountDue).toBeCloseTo(156.6, 2)
+    expect(totalAmountDue).toBeCloseTo(172.5, 2)
   })
 
   test('totalAmountDue returns NaN when gallons requested is negative', async () => {

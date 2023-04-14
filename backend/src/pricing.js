@@ -1,4 +1,4 @@
-const { getQuoteHistory } = require('./fuelquotes')
+const { knexClient } = require('./knexClient')
 
 class FuelDelivery {
   constructor(gallons, address, city, state, zipcode, username) {
@@ -15,7 +15,8 @@ class FuelDelivery {
     const gallonsRequestedFactor = this.gallons > 1000 ? 0.02 : 0.03
     const companyProfitFactor = 0.1
 
-    const quoteHistory = await getQuoteHistory(this.username)
+    const quoteHistory = await knexClient('quote').select().where('client_username', '=', this.username)
+    console.log(quoteHistory)
     const rateHistoryFactor = quoteHistory.length > 0 ? 0.01 : 0
 
     const currentPrice = 1.5

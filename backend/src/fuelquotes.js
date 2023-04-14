@@ -38,8 +38,9 @@ const generateFuelQuote = async (username, gallons) => {
     city,
     state,
     zipcode,
-    price
+    username
   )
+  //console.log(fuelDelivery.getTotalAmountDue())
 
   const newQuote = {
     gallons: Number(gallons),
@@ -47,8 +48,8 @@ const generateFuelQuote = async (username, gallons) => {
     city,
     state,
     zipcode,
-    price: Number(price),
-    due: Number(fuelDelivery.getTotalAmountDue()),
+    price,
+    due: Number(await fuelDelivery.getTotalAmountDue()),
   }
 
   return newQuote
