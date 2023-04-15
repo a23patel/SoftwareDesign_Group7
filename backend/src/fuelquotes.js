@@ -48,8 +48,8 @@ const generateFuelQuote = async (username, gallons) => {
     city,
     state,
     zipcode,
-    price,
-    due: Number(await fuelDelivery.getTotalAmountDue()),
+    price: Number(await fuelDelivery.getPricePerGallon()).toFixed(2),
+    due: Number(await fuelDelivery.getTotalAmountDue()).toFixed(2),
   }
 
   return newQuote
@@ -90,8 +90,8 @@ const getQuoteHistory = async (username) => {
 
   quotes.forEach((quote) => {
     quote.date = new Date(quote.date).toISOString().split('T')[0]
-    quote.due = Number(quote.due)
-    quote.price = Number(quote.price)
+    quote.due = Number(quote.due).toFixed(2)
+    quote.price = Number(quote.price).toFixed(2)
   })
   return quotes
 }

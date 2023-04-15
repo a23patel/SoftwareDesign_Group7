@@ -276,8 +276,8 @@ describe('The Express app', () => {
       .get('/api/quote/' + username + '/' + gallons)
       .then((response) => {
         const { price, due } = response.data
-        expect(price).toBe(1.5)
-        expect(due).toBeCloseTo(gallons * price)
+        expect(price).toBe("1.73")
+        expect(Number(due)).toBeCloseTo(gallons * Number(price), 0.02)
       })
       .catch((e) => {
         console.log(e)
