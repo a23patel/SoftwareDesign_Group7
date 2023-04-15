@@ -31,12 +31,12 @@ const knexClientConfigs = {
 }
 
 const config = () => {
-    if (node_env.match(/prod/)) {
-        return knexClientConfigs['production']
+    if (!node_env || node_env.match(/dev/)) {
+        return knexClientConfigs['development']
     } else if (node_env.match(/test/)) {
         return knexClientConfigs['testing']
     } else {
-        return knexClientConfigs['development']
+        return knexClientConfigs['production']
     }
 }
 console.log(config())
