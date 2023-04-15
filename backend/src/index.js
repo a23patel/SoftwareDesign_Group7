@@ -16,13 +16,17 @@ const PORT = process.env.PORT || 3001
 
 const app = express()
 app.use(express.json())
-app.use(cors({
-    origin: 'http://localhost:3000'
-}))
+app.use(cors())
+console.log(process.env.NODE_ENV)
 
 app.get('/api/quote/:username/:gallons', async (req, res) => {
     const { username, gallons } = req.params
-    const token = req.headers['authorization'].split(' ')[1]
+    let token = undefined
+    try {
+      token = req.headers['authorization'].split(' ')[1]
+    } catch (e) {
+      res.status(400).json({ msg: 'Error: Invalid login' })
+    }
     if (!validate_token(username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
@@ -40,7 +44,12 @@ app.get('/api/quote/:username/:gallons', async (req, res) => {
 })
 
 app.post('/api/quote', async (req, res) => {
-    const token = req.headers['authorization'].split(' ')[1]
+    let token = undefined
+    try {
+      token = req.headers['authorization'].split(' ')[1]
+    } catch (e) {
+      res.status(400).json({ msg: 'Error: Invalid login' })
+    }
     if (!validate_token(req.body.username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
@@ -58,7 +67,12 @@ app.post('/api/quote', async (req, res) => {
 
 app.get('/api/history/:username', async (req, res) => {
   const { username} = req.params
-  const token = req.headers['authorization'].split(' ')[1]
+  let token = undefined
+  try {
+    token = req.headers['authorization'].split(' ')[1]
+  } catch (e) {
+    res.status(400).json({ msg: 'Error: Invalid login' })
+  }
   if (!validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
@@ -85,8 +99,13 @@ app.post('/api/login', async (req, res) => {
 })
 
 app.post('/api/logout', async (req, res) => {
-  const token = req.headers['authorization'].split(' ')[1]
   const { username } = req.body
+  let token = undefined
+  try {
+    token = req.headers['authorization'].split(' ')[1]
+  } catch (e) {
+    res.status(400).json({ msg: 'Error: Invalid login' })
+  }
   console.log(`LOGOUT: attempt by ${username}, with token ${token}`)
   const is_valid = await validate_token(username, token);
   console.log(`LOGOUT: token passed is valid: ${is_valid}`)
@@ -115,10 +134,16 @@ app.post('/api/register', async (req, res) => {
 
 app.get('/api/profile/:username', async (req, res) => {
   const { username } = req.params
-  const token = req.headers['authorization'].split(' ')[1]
+  let token = undefined
+  try {
+    token = req.headers['authorization'].split(' ')[1]
+  } catch (e) {
+    res.status(400).json({ msg: 'Error: Invalid login' })
+  }
   if (!validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
+    console.log(`${token} is valid? for ${username}`)
     // we would use getProfile to get the profile
     try {
       const profile = await getProfile(username)
@@ -132,7 +157,12 @@ app.get('/api/profile/:username', async (req, res) => {
 })
 
 app.post('/api/profile/edit', async (req, res) => {
-  const token = req.headers['authorization'].split(' ')[1]
+  let token = undefined
+  try {
+    token = req.headers['authorization'].split(' ')[1]
+  } catch (e) {
+    res.status(400).json({ msg: 'Error: Invalid login' })
+  }
   if (!validate_token(req.body.username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
