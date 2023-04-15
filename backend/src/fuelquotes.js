@@ -18,7 +18,7 @@ const generateFuelQuote = async (username, gallons) => {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
   }
 
-  const address = profile.address1 + profile.address2
+  const address = profile.address1 + ', ' + profile.address2
   const city = profile.city
   const state = profile.state
   const zipcode = profile.zipcode

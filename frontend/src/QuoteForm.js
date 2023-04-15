@@ -61,8 +61,8 @@ const QuoteForm = () => {
       return
     }
     // DEBUG
-    console.log(gallons);
-    console.log(date);
+    console.log(gallons)
+    console.log(date)
     await clientWithAuth(token)
       .post('/quote', {
         username,
@@ -140,7 +140,7 @@ const QuoteForm = () => {
             id='delivery_address'
             name='delivery_address'
             placeholder='Address'
-            value={profile.address1 + profile.address2}
+            value={profile.address1 + ', ' + profile.address2}
             readOnly
           />
           <br />

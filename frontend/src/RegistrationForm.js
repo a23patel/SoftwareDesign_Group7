@@ -26,44 +26,36 @@ const RegistrationForm = () => {
 
   const reformatNumber = (e) => {
     // Insert spaces into textbox for Credit Card #
-    let textbox = e.target;
+    let textbox = e.target
     // Base string value to be stored
-    let baseString = '';
+    let baseString = ''
     // Formatted string to be displayed
-    let formattedString = '';
+    let formattedString = ''
     // We get the base string first
-    baseString = (textbox.value).replace(/[ ()-]/gi, "");
-    let len = baseString.length;
-    let sections = ["", "", ""];
-    let section = 0;
-    for (let i = 0; i < len; i++)
-    {
-        if (/\d$/.test(baseString.charAt(i)))
-        {
-          
-          if (sections[section].length === 4 && section === 2)
-            {
-              break;
-            }
-          else if (sections[section].length === 3 && section < 2)
-            {
-              section++;
-            }
-          sections[section] += baseString.charAt(i);
+    baseString = textbox.value.replace(/[ ()-]/gi, '')
+    let len = baseString.length
+    let sections = ['', '', '']
+    let section = 0
+    for (let i = 0; i < len; i++) {
+      if (/\d$/.test(baseString.charAt(i))) {
+        if (sections[section].length === 4 && section === 2) {
+          break
+        } else if (sections[section].length === 3 && section < 2) {
+          section++
         }
+        sections[section] += baseString.charAt(i)
+      }
     }
-    if (sections[0].length === 3 && sections[1] !== "") {
-      formattedString = '(' + sections[0] + ')';
+    if (sections[0].length === 3 && sections[1] !== '') {
+      formattedString = '(' + sections[0] + ')'
     } else {
-      formattedString = sections[0];
+      formattedString = sections[0]
     }
-    if (sections[1] !== "")
-        formattedString += '-' + sections[1];
-    if (sections[2] !== "")
-        formattedString += '-' + sections[2];
-    textbox.value = formattedString;
-    return baseString.slice(0,10);
-  };
+    if (sections[1] !== '') formattedString += '-' + sections[1]
+    if (sections[2] !== '') formattedString += '-' + sections[2]
+    textbox.value = formattedString
+    return baseString.slice(0, 10)
+  }
   const handleNumberChange = (e) => {
     const baseNumber = reformatNumber(e)
     setNumber(baseNumber)
@@ -120,7 +112,7 @@ const RegistrationForm = () => {
       <form onSubmit={handleRegisterSubmit}>
         <div className='container'>
           <label className='label' htmlFor='user'>
-            User Name:{' '}
+            User Name:
           </label>
           <input
             type='text'
@@ -133,7 +125,7 @@ const RegistrationForm = () => {
           />
           <br />
           <label className='label' htmlFor='email'>
-            Email:{' '}
+            Email:
           </label>
           <input
             type='email'
@@ -158,7 +150,7 @@ const RegistrationForm = () => {
           />
           <br />
           <label className='label' htmlFor='password1'>
-            Password:{' '}
+            Password:
           </label>
           <input
             type='password'

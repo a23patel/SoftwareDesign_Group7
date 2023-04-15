@@ -23,10 +23,12 @@ const Profile = () => {
       localStorage.clear()
       navigate('/login')
     } else {
-      clientWithAuth(token).get('/profile/' + username).then((response) => {
-        console.log(response.data)
-        setProfile(response.data)
-      })
+      clientWithAuth(token)
+        .get('/profile/' + username)
+        .then((response) => {
+          console.log(response.data)
+          setProfile(response.data)
+        })
     }
   }, [])
 
@@ -38,24 +40,24 @@ const Profile = () => {
       </center>
       <div className='container'>
         <label className='label' htmlFor='fullname'>
-          Full Name:{' '}
+          Full Name:
         </label>
         <input name='fullname' type='text' value={profile.fullname} />
         <br />
         <label className='label' htmlFor='address'>
-          Address:{' '}
+          Address:
         </label>
         <input name='address' type='text' value={formatFullAddress()} />
         <label className='label' htmlFor='city'>
-          City:{' '}
+          City:
         </label>
         <input name='city' type='text' value={profile.city} />
         <label className='label' htmlFor='state'>
-          State:{' '}
+          State:
         </label>
         <input name='state' type='text' value={profile.state} />
         <label className='label' htmlFor='zipcode'>
-          Zip Code:{' '}
+          Zip Code:
         </label>
         <input name='zipcode' type='text' value={profile.zipcode} />
         <h1 className='heading3'>
@@ -63,7 +65,7 @@ const Profile = () => {
           {/* <a className='anchor' href='/profile/edit'>
             Click here
           </a> */}
-          <Link className='anchor' to="/profile/edit">
+          <Link className='anchor' to='/profile/edit'>
             Click here
           </Link>
         </h1>
