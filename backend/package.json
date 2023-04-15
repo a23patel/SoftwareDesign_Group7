@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --maxWorkers=1",
-    "start": "nodemon src/server.js"
+    "start": "NODE_ENV=development nodemon src/server.js"
   },
   "keywords": [],
   "author": "Abraar Patel, Michael Moorman, Rishi Chitturi, Dosbol Aliev",
