@@ -39,6 +39,56 @@ afterAll(() => {
   knexClient.destroy();
 })
 
+const user = {
+  username: 'robert',
+  password: 'Test!Pass77'
+}
+
+const profile = {
+  username: 'robert',
+  fullname: 'Robert Robertson',
+  email: 'rob@uh.edu',
+  address1: '111 Somewhere Street',
+  address2: 'Apartment 2',
+  city: 'Houston',
+  state: 'TX',
+  phone: '7137137133',
+  zipcode: '77001',
+}
+
+const quoteInput = {
+  username: 'robert',
+  gallons: 5,
+  date:'2024-04-03',
+}
+
+const login_shim = async () => {
+  await client.post('/api/register', user)
+  return await client.post('/api/login', user).then((response) => {
+    return response.data.token
+  })
+}
+
+const profile_shim = async () => {
+  const token = await login_shim()
+  await clientWithAuth(token).post('/api/profile/edit', profile)
+  console.log(token)
+  return token
+}
+
+const get_quote_shim = async () => {
+  const token = await profile_shim()
+  const resp = await clientWithAuth(token).get('/api/quote/robert/5')
+  const { price, due } = resp.data
+  return { token, quote: { price, due, ...quoteInput}}
+}
+
+const post_quote_shim = async () => {
+  const { token, quote } = await get_quote_shim()
+  await clientWithAuth(token).post('/api/quote', quoteInput)
+  return token
+}
+
 describe('The Express app', () => {
   test('should handle login/logout of valid users with valid passwords', async () => {
     const username = 'richard'
@@ -303,7 +353,9 @@ describe('The Express app', () => {
         console.log(`Error: failed to register`)
         throw e
       })
-    const { token } = await client.post('/api/login', reqBody)
+    const token = await client.post('/api/login', reqBody).then((response) => {
+      return response.data.token
+    })
     let profileBody = {
       username,
       fullname: 'Robert Robertson',
@@ -344,7 +396,9 @@ describe('The Express app', () => {
         console.log(`Error: failed to register`)
         throw e
       })
-    const { token } = await client.post('/api/login', reqBody)
+    const token = await client.post('/api/login', reqBody).then((response) => {
+      return response.data.token
+    })
     let profileBody = {
       username,
       fullname: 'Robert Robertson',
@@ -386,7 +440,7 @@ describe('The Express app', () => {
         expect(date).toBe(quoteBody.date)
         expect(price).toBe(quoteBody.price)
         expect(due).toBe(quoteBody.due)
-        expect(address).toBe(profileBody.address1 + profileBody.address2)
+        expect(address).toBe(profileBody.address1 + ', ' + profileBody.address2)
         expect(city).toBe(profileBody.city)
         expect(state).toBe(profileBody.state)
         expect(zipcode).toBe(profileBody.zipcode)
@@ -431,5 +485,45 @@ describe('The Express app', () => {
           })
           .catch((_) => {})
     ).not.toThrow()
+  })
+  test('should prevent users from accessing profile without authentication', async () => {
+    await profile_shim()
+    return expect(client.get('/api/profile/richard')).rejects.toThrow()
+  })
+  test('should prevent users from accessing profile with bogus tokens', async () => {
+    await profile_shim()
+    return expect(clientWithAuth('badtoken').get('/api/profile/richard')).rejects.toThrow()
+  })
+  test('should prevent users from editing profile without authentication', async () => {
+    await login_shim()
+    return expect(client.post('/api/profile', profile)).rejects.toThrow()
+  })
+  test('should prevent users from editing profile with bogus tokens', async () => {
+    await login_shim()
+    return expect(clientWithAuth('badtoken').post('/api/profile', profile)).rejects.toThrow()
+  })
+  test('should prevent users from accessing quotes without authentication headers', async () => {
+    const token = await login_shim()
+    return expect(client.get('/api/quote/richard/5')).rejects.toThrow()
+  })
+  test('should prevent users from accessing quotes with bogus tokens', async () => {
+    const token = await login_shim()
+    return expect(clientWithAuth('baloney').get('/api/quote/richard/5')).rejects.toThrow()
+  })
+  test('should prevent users from posting quotes without authentication headers', async () => {
+    const { token, quote } = await get_quote_shim()
+    return expect(client.post('/api/quote', quote)).rejects.toThrow()
+  })
+  test('should prevent users from posting quotes with bogus tokens', async () => {
+    const { token, quote } = await get_quote_shim()
+    return expect(clientWithAuth('faketoken').post('/api/quote', quote)).rejects.toThrow()
+  })
+  test('should prevent users from accessing history without authentication headers', async () => {
+    const token = await post_quote_shim()
+    return expect(client.get('/api/history/robert')).rejects.toThrow()
+  })
+  test('should prevent users from accessing history with bogus tokens', async () => {
+    const token = await post_quote_shim()
+    return expect(clientWithAuth('notgood').get('/api/history/robert')).rejects.toThrow()
   })
 })

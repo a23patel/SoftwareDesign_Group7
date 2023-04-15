@@ -63,7 +63,7 @@ describe('The login module', () => {
     });
     test('does not validate forged tokens', async () => {
         await create_user(valid_user.username, valid_user.password);
-        return expect(await validate_token(valid_user.username, fake_token)).toBe(false);
+        return expect(validate_token(valid_user.username, fake_token)).resolves.toBe(false);
     });
     test('throws error if logout is attempted on an invalid token', async () => {
         await create_user(valid_user.username, valid_user.password);

@@ -24,10 +24,12 @@ app.get('/api/quote/:username/:gallons', async (req, res) => {
     let token = undefined
     try {
       token = req.headers['authorization'].split(' ')[1]
+      console.log(token)
     } catch (e) {
       res.status(400).json({ msg: 'Error: Invalid login' })
+      return
     }
-    if (!validate_token(username, token)) {
+    if (!await validate_token(username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
       // we would use getQuoteHistory to get the quote history
@@ -49,8 +51,9 @@ app.post('/api/quote', async (req, res) => {
       token = req.headers['authorization'].split(' ')[1]
     } catch (e) {
       res.status(400).json({ msg: 'Error: Invalid login' })
+      return
     }
-    if (!validate_token(req.body.username, token)) {
+    if (!await validate_token(req.body.username, token)) {
       res.status(400).json({ msg: 'Error: Invalid login' })
     } else {
       // We use submitFuelQuote
@@ -72,8 +75,9 @@ app.get('/api/history/:username', async (req, res) => {
     token = req.headers['authorization'].split(' ')[1]
   } catch (e) {
     res.status(400).json({ msg: 'Error: Invalid login' })
+    return
   }
-  if (!validate_token(username, token)) {
+  if (!await validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use getQuoteHistory to get the quote history
@@ -105,6 +109,7 @@ app.post('/api/logout', async (req, res) => {
     token = req.headers['authorization'].split(' ')[1]
   } catch (e) {
     res.status(400).json({ msg: 'Error: Invalid login' })
+    return
   }
   console.log(`LOGOUT: attempt by ${username}, with token ${token}`)
   const is_valid = await validate_token(username, token);
@@ -139,8 +144,9 @@ app.get('/api/profile/:username', async (req, res) => {
     token = req.headers['authorization'].split(' ')[1]
   } catch (e) {
     res.status(400).json({ msg: 'Error: Invalid login' })
+    return
   }
-  if (!validate_token(username, token)) {
+  if (!await validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     console.log(`${token} is valid? for ${username}`)
@@ -162,8 +168,9 @@ app.post('/api/profile/edit', async (req, res) => {
     token = req.headers['authorization'].split(' ')[1]
   } catch (e) {
     res.status(400).json({ msg: 'Error: Invalid login' })
+    return
   }
-  if (!validate_token(req.body.username, token)) {
+  if (!await validate_token(req.body.username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
     // we would use updateProfile to edit the profile

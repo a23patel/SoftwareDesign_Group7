@@ -52,6 +52,9 @@ const make_invalid = async (username, token) => {
 }
 
 const token_is_invalid = async (token) => {
+    if (!token) {
+        return false;
+    }
     const rows = await knexClient('sessions').select().where('token', '=', token)
     console.log(`DEBUG: we found ${rows.length} duplicate rows`)
     if (rows.length !== 0) {
@@ -68,7 +71,6 @@ const generate_token = async (username, password) => {
     //const is_valid = users.get(username) === password;
     //if (!is_valid) {
     const valid_user = await is_valid(username, password);
-    console.log(valid_user);
     if (!valid_user) {
         throw new Error('Invalid user or password');
     }
@@ -80,14 +82,13 @@ const validate_token = async (username, token) => {
     if (await token_is_invalid(token)) {
         return false;
     }
-    else {
-        try {
-            const payload = jwt.verify(token, token_secret, { expiresIn: 1800 });
-            return username === payload.username;
-        }
-        catch (e) {
-            return false;
-        }
+    try {
+        const payload = jwt.verify(token, token_secret, { expiresIn: 1800 });
+        console.log(`Payload is ${payload} for token ${token}`)
+        return username === payload.username;
+    }
+    catch (e) {
+        return false;
     }
 };
 

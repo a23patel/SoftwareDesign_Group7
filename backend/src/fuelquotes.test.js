@@ -64,7 +64,7 @@ describe('The Fuel Quote Module', () => {
     expect(result).toEqual(
       expect.objectContaining({
         gallons: 150,
-        address: '123 Hornwood Dr',
+        address: '123 Hornwood Dr, ',
         city: 'Houston',
         state: 'TX',
         zipcode: '77097',
@@ -100,7 +100,7 @@ describe('The Fuel Quote Module', () => {
       expect.objectContaining({
         date: '2023-03-31',
         gallons: 150,
-        address: '123 Hornwood Dr',
+        address: '123 Hornwood Dr, ',
         city: 'Houston',
         state: 'TX',
         zipcode: '77097',
