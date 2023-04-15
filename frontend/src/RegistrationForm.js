@@ -76,6 +76,7 @@ const RegistrationForm = () => {
       .post('/register', { username, password, email, number, confirmpassword })
       .then((response) => {})
       .catch((error) => {
+        console.log(error)
         const status = error.response.status
         if (status === 400) {
           alert('Registration failed!')

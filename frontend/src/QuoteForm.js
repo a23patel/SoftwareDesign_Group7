@@ -121,7 +121,7 @@ const QuoteForm = () => {
             required
           />
           <br />
-          <label className='label' htmlFor='Delivery_date'>
+          <label className='label' htmlFor='delivery_date'>
             Delivery Date:
           </label>
           <input
@@ -132,7 +132,7 @@ const QuoteForm = () => {
             onChange={handleDateChange}
             required
           />
-          <label className='label' htmlFor='address1'>
+          <label className='label' htmlFor='delivery_address'>
             Delivery Address:
           </label>
           <input
@@ -144,7 +144,7 @@ const QuoteForm = () => {
             readOnly
           />
           <br />
-          <label className='label' htmlFor='city'>
+          <label className='label' htmlFor='delivery_city'>
             Delivery City:
           </label>
           <input
@@ -156,7 +156,7 @@ const QuoteForm = () => {
             readOnly
           />
           <br />
-          <label className='label' htmlFor='state'>
+          <label className='label' htmlFor='delivery_state'>
             Delivery State:
           </label>
           <input
@@ -168,7 +168,7 @@ const QuoteForm = () => {
             readOnly
           />
           <br />
-          <label className='label' htmlFor='zipcode'>
+          <label className='label' htmlFor='delivery_zipcode'>
             Delivery Zipcode:
           </label>
           <input
@@ -186,7 +186,7 @@ const QuoteForm = () => {
           <br />
         </form>
         <form onSubmit={handleQuoteSubmit}>
-          <label className='label' htmlFor='Suggested_price'>
+          <label className='label' htmlFor='suggested_gallon_price'>
             Suggested Price Per Gallon:
           </label>
           <input
@@ -197,7 +197,7 @@ const QuoteForm = () => {
             readOnly
           />
           <br />
-          <label className='label' htmlFor='total_amount'>
+          <label className='label' htmlFor='total_cost'>
             Total Amount Due:
           </label>
           <input

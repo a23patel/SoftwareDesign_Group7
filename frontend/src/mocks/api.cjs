@@ -101,7 +101,7 @@ const valid_password = (username, password) => {
 const generate_token = (username) => { return 'secrettoken93423'; };
 
 const handlers = [
-    rest.post('http://localhost:3000/api/login', async (req, res, ctx) => {
+    rest.post('http://localhost:3001/api/login', async (req, res, ctx) => {
         const { username, password } = await req.json();
         if (!users.has(username) || !valid_password(username, password)) {
             return res(
@@ -122,7 +122,7 @@ const handlers = [
             })
         )
     }),
-    rest.get('http://localhost:3000/api/profile/:username', (req, res, ctx) => {
+    rest.get('http://localhost:3001/api/profile/:username', (req, res, ctx) => {
         const { username } = req.params;
         const { token } = req.headers.get('Authorization').split(' ')[1];
         let result = undefined;
@@ -140,7 +140,7 @@ const handlers = [
             );
         }
     }),
-    rest.post('http://localhost:3000/api/profile/edit', async (req, res, ctx) => {
+    rest.post('http://localhost:3001/api/profile/edit', async (req, res, ctx) => {
         const { username, ...profile } = await req.json();
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (users.has(username) && valid_token(username, token)) {
@@ -157,7 +157,7 @@ const handlers = [
             );
         }
     }),
-    rest.get('http://localhost:3000/api/history/:username', (req, res, ctx) => {
+    rest.get('http://localhost:3001/api/history/:username', (req, res, ctx) => {
         const { username } = req.params;
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
@@ -175,7 +175,7 @@ const handlers = [
             ctx.json({ quotes: result, message: `Operation successful` })
         );
     }),
-    rest.get('http://localhost:3000/api/quote/:username/:gallons', (req, res, ctx) => {
+    rest.get('http://localhost:3001/api/quote/:username/:gallons', (req, res, ctx) => {
         const { username, gallons } = req.params;
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
@@ -191,7 +191,7 @@ const handlers = [
             ctx.json({ price, due, message: `Operation succeeded` })
         );
     }),
-    rest.post('http://localhost:3000/api/quote', async (req, res, ctx) => {
+    rest.post('http://localhost:3001/api/quote', async (req, res, ctx) => {
         const { username, address1, address2, city, state, zipcode, gallons, date, price, due } = await req.json();
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (!users.has(username) || !valid_token(username, token)) {
@@ -220,7 +220,7 @@ const handlers = [
             ctx.json({ message: `Operation succeeded` })
         );
     }),
-    rest.post('http://localhost:3000/api/register', async (req, res, ctx) => {
+    rest.post('http://localhost:3001/api/register', async (req, res, ctx) => {
         const { username, email, phone, password } = await req.json();
         if (users.has(username) || password === undefined || email === undefined) {
             return res(
@@ -246,7 +246,7 @@ const handlers = [
             );
         }
     }),
-    rest.post('http://localhost:3000/api/logout', async (req, res, ctx) => {
+    rest.post('http://localhost:3001/api/logout', async (req, res, ctx) => {
         const { username } = await req.json();
         const { token } = req.headers.get('Authorization').split(' ')[1];
         if (sessions.has(username) && valid_token(username, token)) {
