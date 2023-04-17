@@ -20,7 +20,7 @@ describe('Pricing Module', () => {
   test('calculates the correct suggested price per gallon for a fuel delivery to Texas', async () => {
     const delivery = new FuelDelivery(
       100,
-      '123 Main St',
+      '123 Main S',
       'Houston',
       'TX',
       '77097',
