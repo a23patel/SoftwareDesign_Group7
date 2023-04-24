@@ -41,7 +41,9 @@ afterAll(() => {
 
 const user = {
   username: 'robert',
-  password: 'Test!Pass77'
+  password: 'Test!Pass77',
+  email: 'rob@uh.edu',
+  phone: '7137137133',
 }
 
 const profile = {
@@ -91,11 +93,11 @@ const post_quote_shim = async () => {
 
 describe('The Express app', () => {
   test('should handle login/logout of valid users with valid passwords', async () => {
-    const username = 'richard'
+    const username = 'robert'
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })
@@ -126,7 +128,7 @@ describe('The Express app', () => {
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })
@@ -159,13 +161,13 @@ describe('The Express app', () => {
           phone,
         } = response.data
         expect(full_name).toBe('johnny nguyen')
-        expect(email).toBe('johnny123@gmail.com')
+        expect(email).toBe('rob@uh.edu')
         expect(address1).toBe('4320 Beechnut St')
         expect(address2).toBe('')
         expect(city).toBe('Houston')
         expect(state).toBe('TX')
         expect(zipcode).toBe('77092')
-        expect(phone).toBe('2814563224')
+        expect(phone).toBe('7137137133')
       })
       .catch((e) => {
         console.log(`Error: failure in fetching profile`)
@@ -179,11 +181,11 @@ describe('The Express app', () => {
       })
   })
   test('should allow users to edit their profile', async () => {
-    const username = 'riley'
+    const username = 'robert'
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })
@@ -254,11 +256,11 @@ describe('The Express app', () => {
       })
   })
   test('should allow users to generate quotes', async () => {
-    const username = 'roland'
+    const username = 'robert'
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })
@@ -341,11 +343,11 @@ describe('The Express app', () => {
       })
   })
   test('should allow users to submit quotes', async () => {
-    const username = 'rachel'
+    const username = 'robert'
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })
@@ -384,11 +386,11 @@ describe('The Express app', () => {
     return expect(clientWithAuth(token).post('/api/quote', quoteBody)).resolves.not.toBe(undefined)
   })
   test('should allow users to view quote history', async () => {
-    const username = 'raquel'
+    const username = 'robert'
     const password = 'Test!Pass77'
     let reqBody = { username, password }
     await client
-      .post('/api/register', reqBody)
+      .post('/api/register', user)
       .then((response) => {
         expect(response.data.msg).toBe('Success')
       })

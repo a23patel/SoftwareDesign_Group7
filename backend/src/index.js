@@ -128,9 +128,9 @@ app.post('/api/logout', async (req, res) => {
 
 app.post('/api/register', async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { username, password, email, phone } = req.body
     let success = await create_user(username, password)
-    success = await updateProfile(username, {})
+    success = await updateProfile(username, { email, phone })
     res.status(200).json({ msg: 'Success' })
   } catch (e) {
     res.status(400).json({ msg: e })
