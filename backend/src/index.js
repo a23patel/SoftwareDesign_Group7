@@ -4,7 +4,10 @@ const {
     generateFuelQuote,
     submitFuelQuote,
     getQuoteHistory, } = require('./fuelquotes')
-const { getProfile, updateProfile } = require('./profile')
+const {
+  generateProfile, 
+  getProfile, 
+  updateProfile } = require('./profile')
 const {
   generate_token,
   validate_token,
@@ -130,6 +133,7 @@ app.post('/api/register', async (req, res) => {
   try {
     const { username, password, email, phone } = req.body
     let success = await create_user(username, password)
+    success = await generateProfile(username)
     success = await updateProfile(username, { email, phone })
     res.status(200).json({ msg: 'Success' })
   } catch (e) {

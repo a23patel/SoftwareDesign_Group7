@@ -7,13 +7,13 @@ const generateProfile = async (username) => {
 
   const profileData = {
     client_username: username,
-    full_name: 'peter',
+    full_name: undefined,
     email: 'peter653@gmail.com',
-    address1: '9703 Dunlap Ave',
+    address1: undefined,
     address2: '',
-    city: 'Cleveland',
-    state: 'OH',
-    zipcode: '44090',
+    city: undefined,
+    state: undefined,
+    zipcode: undefined,
     phone: '2348722325',
   }
 

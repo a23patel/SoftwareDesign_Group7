@@ -46,12 +46,12 @@ describe('The Profile Management Module', () => {
     await generateProfile(username)
     const { full_name, email, address1, city, state, zipcode, phone } =
       await getProfile(username)
-    expect(full_name).toEqual('peter')
+    expect(full_name).toEqual(null)
     expect(email).toEqual('peter653@gmail.com')
-    expect(address1).toEqual('9703 Dunlap Ave')
-    expect(city).toEqual('Cleveland')
-    expect(state).toEqual('OH')
-    expect(zipcode).toEqual('44090')
+    expect(address1).toEqual(null)
+    expect(city).toEqual(null)
+    expect(state).toEqual(null)
+    expect(zipcode).toEqual(null)
     expect(phone).toEqual('2348722325')
   })
 

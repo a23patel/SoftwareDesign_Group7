@@ -16,7 +16,15 @@ const Profile = () => {
     zipcode: '...',
   })
 
-  const formatFullAddress = () => profile.address1 + ', ' + profile.address2
+  const formatFullAddress = () => {
+    if (!profile.address1) {
+      return '...'
+    } else if (!profile.address2) {
+      return profile.address1
+    } else {
+      return profile.address1 + ', ' + profile.address2
+    }
+  }
 
   useEffect(() => {
     if (!token) {

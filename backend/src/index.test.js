@@ -160,13 +160,13 @@ describe('The Express app', () => {
           zipcode,
           phone,
         } = response.data
-        expect(full_name).toBe('johnny nguyen')
+        expect(full_name).toBe(null)
         expect(email).toBe('rob@uh.edu')
-        expect(address1).toBe('4320 Beechnut St')
+        expect(address1).toBe(null)
         expect(address2).toBe('')
-        expect(city).toBe('Houston')
-        expect(state).toBe('TX')
-        expect(zipcode).toBe('77092')
+        expect(city).toBe(null)
+        expect(state).toBe(null)
+        expect(zipcode).toBe(null)
         expect(phone).toBe('7137137133')
       })
       .catch((e) => {

@@ -95,6 +95,9 @@ const QuoteForm = () => {
       clientWithAuth(token)
         .get('/profile/' + username)
         .then((response) => {
+          if (response.data.full_name === null) {
+            navigate('/profile/edit')
+          }
           setProfile(response.data)
         })
     }
