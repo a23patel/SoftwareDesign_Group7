@@ -15,30 +15,10 @@ const mySQLConnection = {
     database: process.env.MYSQL_DB
 };
 
-const knexClientConfigs = {
-    development: {
-        client: 'mysql2',
-        connection: mySQLConnection
-    },
-    production: {
-        client: 'mysql2',
-        connection: mySQLConnection
-    },
-    testing: {
-        client: 'mysql2',
-        connection: mySQLConnection
-    }
+const knexClientConfig = {
+    client: 'mysql2',
+    connection: mySQLConnection
 }
 
-const config = () => {
-    if (!node_env || node_env.match(/dev/)) {
-        return knexClientConfigs['development']
-    } else if (node_env.match(/test/)) {
-        return knexClientConfigs['testing']
-    } else {
-        return knexClientConfigs['production']
-    }
-}
-console.log(config())
-const knexClient = knex(config());
+const knexClient = knex(knexClientConfig);
 module.exports = { knexClient };
