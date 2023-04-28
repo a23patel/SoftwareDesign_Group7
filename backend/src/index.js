@@ -20,14 +20,12 @@ const PORT = process.env.PORT || 3001
 const app = express()
 app.use(express.json())
 app.use(cors())
-console.log(process.env.NODE_ENV)
 
 app.get('/api/quote/:username/:gallons', async (req, res) => {
     const { username, gallons } = req.params
     let token = undefined
     try {
       token = req.headers['authorization'].split(' ')[1]
-      console.log(token)
     } catch (e) {
       res.status(400).json({ msg: 'Error: Invalid login' })
       return
@@ -114,9 +112,7 @@ app.post('/api/logout', async (req, res) => {
     res.status(400).json({ msg: 'Error: Invalid login' })
     return
   }
-  console.log(`LOGOUT: attempt by ${username}, with token ${token}`)
   const is_valid = await validate_token(username, token);
-  console.log(`LOGOUT: token passed is valid: ${is_valid}`)
   if (!is_valid) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
@@ -153,7 +149,6 @@ app.get('/api/profile/:username', async (req, res) => {
   if (!await validate_token(username, token)) {
     res.status(400).json({ msg: 'Error: Invalid login' })
   } else {
-    console.log(`${token} is valid? for ${username}`)
     // we would use getProfile to get the profile
     try {
       const profile = await getProfile(username)

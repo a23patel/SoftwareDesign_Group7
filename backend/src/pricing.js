@@ -16,7 +16,6 @@ class FuelDelivery {
     const companyProfitFactor = 0.1
 
     const quoteHistory = await knexClient('quote').select().where('client_username', '=', this.username)
-    console.log(quoteHistory)
     const rateHistoryFactor = quoteHistory.length > 0 ? 0.01 : 0
 
     const currentPrice = 1.5

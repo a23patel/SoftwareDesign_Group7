@@ -21,13 +21,10 @@ const is_valid = async (username, password) => {
     return knexClient.select('password').where('username', '=', username).from('users')
         .then((rows) => {
             if (rows.length !== 1) {
-                console.log(`Our returned rows are ${rows}`)
                 return false;
             }
-            console.log(rows);
             const db_hash = rows[0]['password'];
             const passed_hash = SHA256(password).toString(Base64);
-            console.log(`The stored hash is ${db_hash}, the passed hash is ${passed_hash}`)
             if (db_hash !== passed_hash) {
                 return false;
             }
@@ -42,7 +39,6 @@ const username_exists = async (username) => {
 
 const useradd = async (username, password) => {
     return knexClient('users').insert({username, password: SHA256(password).toString(Base64)}).then((_) => { 
-        console.log(`Adding user ${username} with ${SHA256(password).toString(Base64)} hashed password`)
     }).catch((e) => { throw e });
 }
 
@@ -56,9 +52,7 @@ const token_is_invalid = async (token) => {
         return false;
     }
     const rows = await knexClient('sessions').select().where('token', '=', token)
-    console.log(`DEBUG: we found ${rows.length} duplicate rows`)
     if (rows.length !== 0) {
-        console.log(`TESTING: token_is_invalid yields ${rows.length} rows`);
         return true;
     }
     return false;
@@ -84,7 +78,6 @@ const validate_token = async (username, token) => {
     }
     try {
         const payload = jwt.verify(token, token_secret, { expiresIn: 1800 });
-        console.log(`Payload is ${payload} for token ${token}`)
         return username === payload.username;
     }
     catch (e) {
@@ -96,14 +89,11 @@ const invalidate_token = async (username, token) => {
     try {
         const payload = jwt.verify(token, token_secret, { expiresIn: 1800 });
         if (username !== payload.username) {
-            console.log(`DEBUG: token passed to invalidate_token is for a different user`);
             throw Error('Cannot invalidate an invalid token!');
         }
         if (await token_is_invalid(token)) {
-            console.log(`DEBUG: token passed to invalidate_token has already been invalidated`);
             throw Error('Cannot invalidate an invalid token!');
         }
-        console.log(`DEBUG: attempting to list token as invalidated...`);
         await make_invalid(username, token);
         return true;
     } catch (e) {
@@ -119,15 +109,12 @@ const create_user = async (username, password) => {
     } else if (!password_validate(password)) {
         throw Error('Password contains illegal characters or is not the correct length');
     }
-    //users.set(username, password);
-    console.log("Test: got here")
     try {
         await useradd(username, password)
     } catch (e) {
         console.log(e);
         throw e;
     }
-    console.log("Test: got here too")
     return true;
 }
 

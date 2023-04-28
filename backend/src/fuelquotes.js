@@ -13,7 +13,6 @@ const generateFuelQuote = async (username, gallons) => {
   }
 
   const profile = await getProfile(username)
-  console.log(profile)
   if (!profile) {
     throw new Error('Unable to generate fuel quote: Profile does not exist')
   }
@@ -40,7 +39,6 @@ const generateFuelQuote = async (username, gallons) => {
     zipcode,
     username
   )
-  //console.log(fuelDelivery.getTotalAmountDue())
 
   const newQuote = {
     gallons: Number(gallons),

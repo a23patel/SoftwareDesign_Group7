@@ -10,7 +10,6 @@ let client = undefined
 let clientWithAuth = undefined
 
 const db_cleanup = () => knexClient.transaction(async trx => {
-  console.log('DEBUG: performing DB cleanup');
   await trx('sessions').del();
   await trx('profile').del();
   await trx('quote').del();
@@ -74,7 +73,6 @@ const login_shim = async () => {
 const profile_shim = async () => {
   const token = await login_shim()
   await clientWithAuth(token).post('/api/profile/edit', profile)
-  console.log(token)
   return token
 }
 
@@ -382,7 +380,6 @@ describe('The Express app', () => {
         throw e
       })
     const quoteBody = { username, gallons, date, price, due }
-    console.log(quoteBody)
     return expect(clientWithAuth(token).post('/api/quote', quoteBody)).resolves.not.toBe(undefined)
   })
   test('should allow users to view quote history', async () => {
@@ -435,7 +432,6 @@ describe('The Express app', () => {
     await clientWithAuth(token)
       .get('/api/history/' + username)
       .then((response) => {
-        console.log(response.data)
         const { gallons_requested, address, city, state, zipcode, date, price, due } =
           response.data.quotes[0]
         expect(gallons).toBe(quoteBody.gallons)
