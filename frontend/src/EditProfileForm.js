@@ -201,7 +201,7 @@ const EditProfileForm = () => {
             name='zipcode'
             placeholder='Enter Zipcode'
             minLength={5}
-            maxlength={9}
+            maxlength={5}
             onChange={handleChangeZipcode}
             required
           />
