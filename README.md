@@ -1,6 +1,6 @@
 
  <div id="header" align="center">
-  <h1> COSC 4353: SOFTWARE DESIGN
+  <h1> FUEL DELIVERY WEB APPLICATION
     <br><br>
    <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="200"/>
    <img src="https://media.giphy.com/media/WDJBtnl2cxgReYekEu/giphy.gif", width="200"/>
@@ -8,7 +8,7 @@
 </div>
 ---
 
-<h2>Team 7 Members
+<h2>Members
   <ul><br>
     <li><b>Michael Moorman <img src="https://media.giphy.com/media/m0dmKBkncVETJv2h0S/giphy.gif" width="30px"/></b></li>
     <li><b>Abraar Patel &nbsp <img src="https://media.giphy.com/media/m0dmKBkncVETJv2h0S/giphy.gif" width="30px"/></b></li>
