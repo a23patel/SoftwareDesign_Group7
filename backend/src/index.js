@@ -35,7 +35,6 @@ app.get('/api/quote/:username/:gallons', async (req, res) => {
     } else {
       // we would use getQuoteHistory to get the quote history
       try {
-        // TODO we need to decide if we're going to change the names on the database or in the backend
         //const { price, due } = await generateFuelQuote(username, Number(gallons))
         //res.status(200).json({ price, due })
         const { price, due } = await generateFuelQuote(username, Number(gallons))
